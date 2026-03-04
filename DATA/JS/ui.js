@@ -240,7 +240,7 @@ function loadAllVariations(code) {
 				div.className = "mutant";
 				div.innerHTML = `
 					<img class="png" src="${result.src}">
-					<img class="version" src="DATA/IMG/icon_${tag}.png">
+					<img class="version" src="https://s-beta.kobojo.com/mutants/assets/gachacontent/icon_${tag}.png">
 				`;
 				container.appendChild(div);
 			}
