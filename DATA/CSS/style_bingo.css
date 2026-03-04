@@ -76,6 +76,12 @@ body {
   margin-top: -50px;
 }
 
+.version {
+  margin-top: 25%;
+  height: 150px;
+  position: absolute;
+}
+
 .mutants{
   width: 1450px;
   display: flex;
@@ -112,7 +118,7 @@ body {
   bottom: 0%;
 }
 
-.mutant img {
+.png {
   height: 250px;
   width: auto;
   left: 50%;

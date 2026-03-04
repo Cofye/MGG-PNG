@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		loadBatch();
 	}
 
-	const allImgs = Array.from(document.querySelectorAll('.mutant img'));
+	const allImgs = Array.from(document.querySelectorAll('.png'));
 	allImgs.forEach(img => {
 		img.dataset.src = img.src;
 		img.removeAttribute('src');
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	document.querySelectorAll('.container').forEach(container => {
 		container.classList.add('hidden');
-		const imgs = container.querySelectorAll('.mutant img');
+		const imgs = container.querySelectorAll('.png');
 		imgs.forEach(img => {
 			const parentMutant = img.closest('.mutant');
 			if (parentMutant) parentMutant.classList.add('hidden');

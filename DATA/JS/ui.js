@@ -173,6 +173,8 @@ function openMutantModal(code, displayName) {
 			<div class="mutants" id="modal-mutants"></div>
 		</div>
 	`;
+	
+	// Cargar todas las variaciones después de crear el modal
 	loadAllVariations(code);
 }
 
@@ -184,12 +186,70 @@ document.getElementById("overlay").addEventListener("click", () => {
 function loadAllVariations(code) {
 	const container = document.getElementById("modal-mutants");
 	container.innerHTML = "";
-	addImageIfExists(container, `PNG/${code}.png`);
-	for (let v = 1; v <= 4; v++) {
-		addImageIfExists(container, `PNG/V${v}/${code}.png`);
+	
+	// Array para almacenar las promesas de carga de imágenes
+	const imagePromises = [];
+	
+	// Función para verificar si una imagen existe
+	function checkImage(src) {
+		return new Promise((resolve) => {
+			const img = new Image();
+			img.onload = () => resolve({ exists: true, src });
+			img.onerror = () => resolve({ exists: false, src });
+			img.src = src;
+		});
 	}
+	
+	// Verificar imagen normal
+	imagePromises.push(checkImage(`PNG/${code}.png`).then(result => {
+		if (result.exists) {
+			const div = document.createElement("div");
+			div.className = "mutant";
+			div.innerHTML = `<img class="png" src="${result.src}">`;
+			container.appendChild(div);
+		}
+	}));
+	
+	// Verificar V1, V2, V3, V4 en orden
+	const versiones = [
+		{ num: 1, img: "DATA/IMG/star_bronze.png" },
+		{ num: 2, img: "DATA/IMG/star_silver.png" },
+		{ num: 3, img: "DATA/IMG/star_gold.png" },
+		{ num: 4, img: "DATA/IMG/star_platinum.png" }
+	];
+	
+	versiones.forEach(version => {
+		imagePromises.push(checkImage(`PNG/V${version.num}/${code}.png`).then(result => {
+			if (result.exists) {
+				const div = document.createElement("div");
+				div.className = "mutant";
+				div.innerHTML = `
+					<img class="png" src="${result.src}">
+					<img class="version" src="${version.img}">
+				`;
+				container.appendChild(div);
+			}
+		}));
+	});
+	
+	// Verificar VR tags
 	vrTags.forEach(tag => {
-		addImageIfExists(container, `PNG/VR/${code}_${tag}.png`);
+		imagePromises.push(checkImage(`PNG/VR/${code}_${tag}.png`).then(result => {
+			if (result.exists) {
+				const div = document.createElement("div");
+				div.className = "mutant";
+				div.innerHTML = `
+					<img class="png" src="${result.src}">
+					<img class="version" src="DATA/IMG/icon_${tag}.png">
+				`;
+				container.appendChild(div);
+			}
+		}));
+	});
+	
+	// Esperar a que todas las verificaciones terminen
+	Promise.all(imagePromises).then(() => {
+		console.log(`Todas las variaciones cargadas para ${code}`);
 	});
 }
 
@@ -200,7 +260,9 @@ function addImageIfExists(container, src) {
 	img.onload = () => {
 		const div = document.createElement("div");
 		div.className = "mutant";
-		div.innerHTML = `<img src="${src}">`;
+		div.innerHTML = `
+		<img class="png" src="${src}">
+		<img class="version" src="">`;
 		container.appendChild(div);
 	};
 }
