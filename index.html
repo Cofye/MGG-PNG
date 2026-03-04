@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>PNGs</title>
+	<link rel="stylesheet" href="DATA/CSS/style.css"/>
+</head>
+<body>
+	<div id="overlay" class="hidden"></div>
+	<div id="modal" class="hidden">
+		<div id="modal-scale-wrapper">
+			<div id="modal-content"></div>
+		</div>
+	</div>
+
+	<div id="scale-container">
+
+		<div id="search-box">
+			<input type="text" id="mutant-search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Buscar mutante...">
+			<div id="search-results" class="hidden"></div>
+			<img id="search-icon" src="DATA/IMG/quest_mutodex.png">
+		</div>
+
+		<div class="selectors">
+
+			<a class="selector" href="DATA/PAGES/BINGO_MONOGEN.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_monogen.png">
+					<span class="text bingoText">Monogen</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_01.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_1.png">
+					<span class="text bingoText">Hibridación</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_02.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_2.png">
+					<span class="text bingoText">Bingo 01</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_03.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_3.png">
+					<span class="text bingoText">Bingo 02</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_04.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_4.png">
+					<span class="text bingoText">Bingo 03</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_05.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_5.png">
+					<span class="text bingoText">Bingo 04</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_06.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_6.png">
+					<span class="text bingoText">Bingo 05</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_07.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_7.png">
+					<span class="text bingoText">Bingo 06</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_08.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_8.png">
+					<span class="text bingoText">Bingo 07</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_09.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_9.png">
+					<span class="text bingoText">Bingo 08</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_10.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_10.png">
+					<span class="text bingoText">Bingo 09</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_11.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_11.png">
+					<span class="text bingoText">Bingo 10</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_12.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_12.png">
+					<span class="text bingoText">Bingo 11</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_13.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_13.png">
+					<span class="text bingoText">Bingo 12</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_14.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_14.png">
+					<span class="text bingoText">Bingo 13</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_15.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_15.png">
+					<span class="text bingoText">Bingo 14</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_99.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_season_99.png">
+					<span class="text bingoText">Bingo 99</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/BINGO_SKIN.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_skins.png">
+					<span class="text bingoText">Skins</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/ARENAS.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_arenas.png">
+					<span class="text bingoText bingoText">Arenas</span>
+				</div>
+			</a>
+			<a class="selector" href="DATA/PAGES/NPC.html">
+				<div class="bg">
+					<img class="bingo" src="DATA/IMG/morphology_arenas.png">
+					<span class="text bingoText bingoText">NPC's</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<script src="DATA/JS/ui.js"></script>
+</body>
+</html>

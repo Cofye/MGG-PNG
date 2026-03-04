@@ -1,0 +1,145 @@
+html, body {
+  overflow-x: hidden;
+}
+
+#scale-container {
+  width: 1840px;
+  transform-origin: top left; 
+}
+
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.name {
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+  font-weight: 700;
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+  position: absolute;
+  margin-top: 80px;
+  width: 250px;
+  transform: scale(1.83, 2.5);
+  transform-origin: top center;
+  width: calc(250px / 1.83);
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: center;
+  line-height: 1;
+}
+
+
+.info {
+  height: 135px;
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  margin-top: 0px;
+}
+
+.big {
+  margin-top: -32.5px;
+  height: 200px;
+  width: auto;
+  position: absolute;
+  z-index: -1;
+}
+
+.larva {
+  margin-top: 0px;
+  height: 150px;
+  width: auto;
+  position: absolute;
+  z-index: -1;
+  margin-top: 150px;
+  transform: rotate(10deg);
+}
+
+.icon img {
+  margin-top: -50px;
+}
+
+.mutants{
+  width: 1450px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 50px;
+  row-gap: 10px;
+  overflow: visible;
+  align-items: flex-start;
+  margin-left: 300px;
+  margin-bottom: 70px;
+}
+
+.mutant {
+  height: 105px;
+  width: 250px;
+  grid-column: 2;
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 197.5px;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../IMG/platform.png);
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}
+
+.mutant.base img {
+  left: 50%;
+  bottom: 25%;
+}
+.mutant.bottom img {
+  left: 50%;
+  bottom: 0%;
+}
+
+.mutant img {
+  height: 250px;
+  width: auto;
+  left: 50%;
+  bottom: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+.base .mutant img {
+  left: 50%;
+  bottom: 25%;
+}
+.bottom .mutant img {
+  left: 50%;
+  bottom: 0%;
+}
+
+.x50 .mutant img {
+  height: 125px;
+  width: auto;
+}
+.x75 .mutant img {
+  height: 187.5px;
+  width: auto;
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,43 @@
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#scale-container {
+  position: absolute;
+  transform-origin: top left;
+}
+
+.arena-block {
+  margin: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.aarena-block img {
+  display: block;
+}
+
+.logo {
+  height: 60px;
+}
+
+.banner {
+  height: 200px;
+}
+
+.arena {
+  height: 200px;
+}
+
+.background {
+  height: 200px;
+}

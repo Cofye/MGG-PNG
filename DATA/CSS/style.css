@@ -1,0 +1,306 @@
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#scale-container {
+  position: absolute;
+  transform-origin: top left;
+}
+
+.text {
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+  font-weight: 700;
+  transform: scale(2.5, 3.6);
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+  transform-origin: 0 0;
+  position: absolute;
+}
+
+.selectors{
+  width: 1795px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 20px;
+  overflow: visible;
+  align-items: flex-start;
+}
+
+.selector {
+  display: inline-block;
+  position: relative;
+}
+
+.bg {
+  height: 143px;
+  width: 430px;
+  display: flex;
+  background-image: url(../IMG/selector.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.bg:hover {
+  filter: drop-shadow(0 0 10px #fff);
+  transform: translateX(8px);
+}
+
+.bingo {
+  height: 115px;
+  margin-top: 7px;
+  margin-left: 30px;
+  position: absolute;
+}
+.bingoText {
+  margin-top: 30px;
+  margin-left: 160px;
+  position: absolute;
+  font-size: 120%;
+}
+
+.name-list {
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+  font-weight: 700;
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+    margin-left: 170px;
+  position: absolute;
+  width: 250px;
+  transform: scale(1.83, 2.5);
+  width: calc(250px / 1.83);
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: left;
+  line-height: 1;
+}
+
+#search-box {
+  position: relative;
+  width: 500px;
+  margin: 50px;
+  margin-top: 30px;
+  left: 90px;
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+  font-weight: 700;
+}
+
+#search-icon {
+  height: 100px;
+  position: absolute;
+  margin-top: -80px;
+  margin-left: -120px;
+}
+
+#mutant-search {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 30px;
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+}
+
+#search-results {
+  position: absolute;
+  top: 65px;
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+  background: #1d1d1d;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 5px 0;
+  z-index: 99;
+}
+
+#search-results div {
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+#search-results div:hover {
+  background: #333;
+}
+
+#search-results img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  z-index: 2;
+}
+
+#modal {
+  height: 0px;
+  position: fixed;
+  top: 20%;
+  left: 2%;
+  z-index: 3;
+}
+
+#modal-scale-wrapper {
+  height: 0px;
+  transform-origin: top left;
+}
+
+
+
+
+
+
+
+
+
+.name {
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+  font-weight: 700;
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+  position: absolute;
+  margin-top: 85px;
+  width: 250px;
+  transform: scale(1.83, 2.5);
+  transform-origin: top center;
+  width: calc(250px / 1.83);
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: center;
+  line-height: 1;
+}
+
+
+.info {
+  height: 135px;
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  margin-top: 0px;
+}
+
+.big {
+  margin-top: -32.5px;
+  height: 200px;
+  width: auto;
+  position: absolute;
+  z-index: -1;
+}
+
+.larva {
+  margin-top: 0px;
+  height: 150px;
+  width: auto;
+  position: absolute;
+  z-index: -1;
+  margin-top: 150px;
+  transform: rotate(10deg);
+}
+
+.icon img {
+  margin-top: -50px;
+}
+
+.mutants{
+  width: 1450px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 50px;
+  row-gap: 10px;
+  overflow: visible;
+  align-items: flex-start;
+  margin-left: 300px;
+  margin-bottom: 50px;
+}
+
+.mutant {
+  height: 105px;
+  width: 250px;
+  grid-column: 2;
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 197.5px;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../IMG/platform.png);
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}
+
+.mutant img {
+  height: 250px;
+  width: auto;
+  left: 50%;
+  bottom: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+.hidden {
+  display: none;
+}
