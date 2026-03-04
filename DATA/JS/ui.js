@@ -163,11 +163,11 @@ function openMutantModal(code, displayName) {
 		<div class="container">
 			<div class="info">
 				<div class="genes">
-					<img src="IMG/gene_${gen1}.png">
-					${gen2 ? `<img src="IMG/gene_${gen2}.png">` : ""}
+					<img src="DATA/IMG/gene_${gen1}.png">
+					${gen2 ? `<img src="DATA/IMG/gene_${gen2}.png">` : ""}
 				</div>
 				<span class="name">${displayName} - ${code}</span>
-				<img class="big" src="IMG/bg_${gen1}.png">
+				<img class="big" src="DATA/IMG/bg_${gen1}.png">
 				<img class="larva" src="https://s-beta.kobojo.com/mutants/assets/larvas/larva_${code.toLowerCase()}.png">
 			</div>
 			<div class="mutants" id="modal-mutants"></div>
@@ -184,12 +184,12 @@ document.getElementById("overlay").addEventListener("click", () => {
 function loadAllVariations(code) {
 	const container = document.getElementById("modal-mutants");
 	container.innerHTML = "";
-	addImageIfExists(container, `../../MGG/${code}.png`);
+	addImageIfExists(container, `PNG/${code}.png`);
 	for (let v = 1; v <= 4; v++) {
-		addImageIfExists(container, `../../MGG/V${v}/${code}.png`);
+		addImageIfExists(container, `PNG/V${v}/${code}.png`);
 	}
 	vrTags.forEach(tag => {
-		addImageIfExists(container, `../../MGG/VR/${code}_${tag}.png`);
+		addImageIfExists(container, `PNG/VR/${code}_${tag}.png`);
 	});
 }
 
