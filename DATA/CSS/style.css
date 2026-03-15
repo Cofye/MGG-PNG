@@ -270,6 +270,13 @@ body {
   position: absolute;
 }
 
+.tag {
+  top:-200px;
+  left: 180px;
+  height: 75px;
+  position: absolute;
+}
+
 .mutants{
   width: 1450px;
   display: flex;
