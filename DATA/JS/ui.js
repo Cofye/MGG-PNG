@@ -183,74 +183,153 @@ document.getElementById("overlay").addEventListener("click", () => {
 	document.getElementById("modal").classList.add("hidden");
 });
 
-function loadAllVariations(code) {
+async function loadAllVariations(code) {
 	const container = document.getElementById("modal-mutants");
 	container.innerHTML = "";
-	
-	// Array para almacenar las promesas de carga de imágenes
-	const imagePromises = [];
-	
-	// Función para verificar si una imagen existe
+
 	function checkImage(src) {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			const img = new Image();
-			img.onload = () => resolve({ exists: true, src });
-			img.onerror = () => resolve({ exists: false, src });
+			img.onload = () => resolve(true);
+			img.onerror = () => resolve(false);
 			img.src = src;
 		});
 	}
-	
-	// Verificar imagen normal
-	imagePromises.push(checkImage(`PNG/${code}.png`).then(result => {
-		if (result.exists) {
-			const div = document.createElement("div");
-			div.className = "mutant";
-			div.innerHTML = `<img class="png" src="${result.src}">`;
-			container.appendChild(div);
-		}
-	}));
-	
-	// Verificar V1, V2, V3, V4 en orden
+
+	const normal = [];
+	const versions = [null, null, null, null]; // V1, V2, V3, V4
+	const hd = [];
+	const hdVersions = [null, null, null, null];
+	const skins = [];
+
+	// 🧩 NORMAL BASE
+	if (await checkImage(`PNG/${code}.png`)) {
+		normal.push({
+			src: `PNG/${code}.png`
+		});
+	}
+
+	// ⭐ VERSIONES (ordenadas SIEMPRE)
 	const versiones = [
 		{ num: 1, img: "DATA/IMG/star_bronze.png" },
 		{ num: 2, img: "DATA/IMG/star_silver.png" },
 		{ num: 3, img: "DATA/IMG/star_gold.png" },
 		{ num: 4, img: "DATA/IMG/star_platinum.png" }
 	];
-	
-	versiones.forEach(version => {
-		imagePromises.push(checkImage(`PNG/V${version.num}/${code}.png`).then(result => {
-			if (result.exists) {
-				const div = document.createElement("div");
-				div.className = "mutant";
-				div.innerHTML = `
-					<img class="png" src="${result.src}">
-					<img class="version" src="${version.img}">
-				`;
-				container.appendChild(div);
-			}
-		}));
+
+	for (let i = 0; i < versiones.length; i++) {
+		const v = versiones[i];
+		const src = `PNG/V${v.num}/${code}.png`;
+		if (await checkImage(src)) {
+			versions[i] = {
+				src,
+				version: v.img
+			};
+		}
+	}
+
+	// 🧩 HD BASE
+	if (await checkImage(`PNG HD/${code}.png`)) {
+		hd.push({
+			src: `PNG HD/${code}.png`,
+			tag: "DATA/IMG/tag_hd.png"
+		});
+	}
+
+	// ⭐ HD VERSIONES
+	for (let i = 0; i < versiones.length; i++) {
+		const v = versiones[i];
+		const src = `PNG HD/V${v.num}/${code}.png`;
+		if (await checkImage(src)) {
+			hdVersions[i] = {
+				src,
+				version: v.img,
+				tag: "DATA/IMG/tag_hd.png"
+			};
+		}
+	}
+
+	// 🎰 SKINS (orden libre)
+	for (let tag of vrTags) {
+	const normalSrc = `PNG/VR/${code}_${tag}.png`;
+	const hdSrc = `PNG HD/VR/${code}_${tag}.png`;
+
+	const iconLocal = `DATA/IMG/icon_${tag}.png`;
+
+	// Verificar icono SIEMPRE (independiente de si existe la skin)
+	const iconExists = await checkImage(iconLocal);
+
+	if (!iconExists) {
+		console.warn(`⚠️ Falta icono de skin: ${tag} (${iconLocal})`);
+	}
+
+	// NORMAL
+	if (await checkImage(normalSrc)) {
+		skins.push({
+			src: normalSrc,
+			skinIcon: iconExists ? iconLocal : null
+		});
+	}
+
+	// HD
+	if (await checkImage(hdSrc)) {
+		skins.push({
+			src: hdSrc,
+			tag: "DATA/IMG/tag_hd.png",
+			skinIcon: iconExists ? iconLocal : null
+		});
+	}
+}
+
+	// 🧱 RENDER ORDENADO
+
+function createDiv(data) {
+	const div = document.createElement("div");
+	div.className = "mutant";
+
+	let html = `<img class="png" src="${data.src}">`;
+
+	// ⭐ estrellas (bronce, plata, etc)
+	if (data.version) {
+		html += `<img class="version" src="${data.version}">`;
+	}
+
+	// 🎰 icono de skin (también es "version")
+	if (data.skinIcon) {
+		html += `<img class="version" src="${data.skinIcon}">`;
+	}
+
+	// 🟢 tag HD (único que usa class="tag")
+	if (data.tag) {
+		html += `<img class="tag" src="${data.tag}">`;
+	}
+
+	div.innerHTML = html;
+	return div;
+}
+
+	// ORDEN EXACTO QUE QUIERES:
+
+	// base
+	normal.forEach(m => container.appendChild(createDiv(m)));
+
+	// V1 → V4
+	versions.forEach(m => {
+		if (m) container.appendChild(createDiv(m));
 	});
-	
-	// Verificar VR tags
-	vrTags.forEach(tag => {
-		imagePromises.push(checkImage(`PNG/VR/${code}_${tag}.png`).then(result => {
-			if (result.exists) {
-				const div = document.createElement("div");
-				div.className = "mutant";
-				div.innerHTML = `
-					<img class="png" src="${result.src}">
-					<img class="version" src="https://s-beta.kobojo.com/mutants/assets/gachacontent/icon_${tag}.png">
-				`;
-				container.appendChild(div);
-			}
-		}));
+
+	// HD base
+	hd.forEach(m => container.appendChild(createDiv(m)));
+
+	// HD V1 → V4
+	hdVersions.forEach(m => {
+		if (m) container.appendChild(createDiv(m));
 	});
-	
-	// Esperar a que todas las verificaciones terminen
-	Promise.all(imagePromises).then(() => {
-		console.log(`Todas las variaciones cargadas para ${code}`);
-	});
+
+	// skins (desorden permitido)
+	skins.forEach(m => container.appendChild(createDiv(m)));
+
+	console.log(`Variaciones ordenadas para ${code}`);
 }
 
 function addImageIfExists(container, src) {
