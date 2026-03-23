@@ -1,3 +1,5 @@
+let mutantsLoaded = false;
+
 function scaleSite() {
   const baseWidth = 1840;
   const scale = window.innerWidth / baseWidth;
@@ -69,26 +71,54 @@ let mutants = [];
 
 let vrTags = [];
 	
+let mutantSkinsMap = {};
+
 async function loadGachaTags() {
-  const res = await fetch("https://s-beta.kobojo.com/mutants/gameconfig/gacha.xml?nocache=${Date.now()}");
-  const text = await res.text();
-  const parser = new DOMParser();
-  const xml = parser.parseFromString(text, "text/xml");
-  let tags = [...xml.querySelectorAll("Gacha")]
-    .map(g => g.getAttribute("id"))
-    .filter(id => id)
-    .filter(id =>
-      !id.startsWith("seasons") &&
-      !id.startsWith("gachaboss")
-    );
-  tags.push("boss");
-  tags = [...new Set(tags)];
-  console.log("VR tags cargados:", tags);
-  vrTags = tags;
+	const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/gacha.xml?nocache=${Date.now()}`);
+	const text = await res.text();
+	const parser = new DOMParser();
+	const xml = parser.parseFromString(text, "text/xml");
+
+	const gachas = [...xml.querySelectorAll("Gacha")];
+
+	gachas.forEach(gacha => {
+		const tag = gacha.getAttribute("id");
+		if (!tag) return;
+
+		if (tag.startsWith("seasons") || tag.startsWith("gachaboss")) return;
+
+		// Buscar en ambas secciones
+		const specimens = [
+			...gacha.querySelectorAll("BasicElements GachaSpecimen"),
+			...gacha.querySelectorAll("CompletionReward GachaSpecimen")
+		];
+
+		specimens.forEach(spec => {
+			const raw = spec.getAttribute("specimen");
+			if (!raw) return;
+
+			const code = raw.replace("Specimen_", "").trim();
+
+			if (!mutantSkinsMap[code]) {
+				mutantSkinsMap[code] = [];
+			}
+
+			mutantSkinsMap[code].push(tag);
+		});
+	});
+
+	mutantSkinsMap["AF_10"] = mutantSkinsMap["AF_10"] || [];
+  mutantSkinsMap["AF_10"].push("purgatory");
+
+	console.log("Mapa de skins cargado:", mutantSkinsMap);
 }
 
 Promise.all([loadMutants(), loadGachaTags()]).then(([mutantList]) => {
 	mutants = mutantList;
+	mutantsLoaded = true;
+	if (mutantsLoaded && searchInput.value.length > 0) {
+	searchInput.dispatchEvent(new Event("input"));
+}
 });
 
 const searchInput = document.getElementById("mutant-search");
@@ -127,11 +157,25 @@ function normalizeText(str) {
 
 searchInput.addEventListener("input", () => {
 	const text = normalizeText(searchInput.value);
+
 	if (text.length === 0) {
 		resultsBox.classList.add("hidden");
 		return;
 	}
 
+	// ⏳ SI AÚN NO CARGA
+	if (!mutantsLoaded) {
+		resultsBox.innerHTML = `
+			<div class="result-item">
+				<img src="DATA/IMG/tab-loading.gif">
+				<span class="name-list">Cargando mutantes...</span>
+			</div>
+		`;
+		resultsBox.classList.remove("hidden");
+		return;
+	}
+
+	// 🔍 BÚSQUEDA NORMAL
 	const filtered = mutants.filter(m => {
 		const nameNorm = normalizeText(m.name);
 		const codeNorm = normalizeText(m.code);
@@ -250,17 +294,17 @@ async function loadAllVariations(code) {
 	}
 
 	// 🎰 SKINS (orden libre)
-	for (let tag of vrTags) {
+const skinsTags = mutantSkinsMap[code] || [];
+
+for (let tag of skinsTags) {
 	const normalSrc = `PNG/VR/${code}_${tag}.png`;
 	const hdSrc = `PNG HD/VR/${code}_${tag}.png`;
-
 	const iconLocal = `DATA/IMG/icon_${tag}.png`;
 
-	// Verificar icono SIEMPRE (independiente de si existe la skin)
 	const iconExists = await checkImage(iconLocal);
 
 	if (!iconExists) {
-		console.warn(`⚠️ Falta icono de skin: ${tag} (${iconLocal})`);
+		console.warn(`⚠️ Falta icono de skin: ${tag}`);
 	}
 
 	// NORMAL
