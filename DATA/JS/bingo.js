@@ -46,13 +46,16 @@ fetch(`https://s-beta.kobojo.com/mutants/gameconfig/localisation_es.txt?nocache=
 	text.split(/\r?\n/).forEach(line => {
 		if (!line) return;
 		const [code, name] = line.split(';');
-		if (code && name) map[code.trim()] = name.trim();
+if (code && name) {
+	const normalizedCode = code.trim().toLowerCase();
+	map[normalizedCode] = name.trim();
+}
 	});
 	document.querySelectorAll('.name').forEach(el => {
-		const code = el.textContent.trim();
-		if (map[code]) {
-			el.textContent = map[code];
-		}
+		const code = el.textContent.trim().toLowerCase();
+if (map[code]) {
+	el.textContent = map[code];
+}
 	});
 })
 .catch(err => console.error(err));

@@ -53,7 +53,7 @@ async function loadMutants() {
 	lines.forEach(line => {
 		const [key, value] = line.split(";");
 		if (!key || !value) return;
-		const code = key.replace(/Specimen_/i, "").trim();
+		const code = key.replace(/specimen_/i, "").trim();
 		localisation[code] = value.trim();
 	});
 	const validMutants = allCodes
