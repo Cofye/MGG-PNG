@@ -26,7 +26,7 @@ function generateLetterCombos() {
 
 function generateNumbers() {
 	let nums = [];
-	for (let i = 1; i <= 14; i++) nums.push(String(i).padStart(2, "0"));
+	for (let i = 1; i <= 15; i++) nums.push(String(i).padStart(2, "0"));
 	nums.push("99");
 	return nums;
 }
