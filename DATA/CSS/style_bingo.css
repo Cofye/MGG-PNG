@@ -116,6 +116,10 @@ body {
   position: relative;
 }
 
+.boss {
+  background-image: url(../IMG/platform_gold.png);
+}
+
 .mutant.base img {
   left: 50%;
   bottom: 25%;
