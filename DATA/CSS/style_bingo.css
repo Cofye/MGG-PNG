@@ -72,6 +72,16 @@ body {
   transform: rotate(10deg);
 }
 
+.gatcha{
+  top: 150px;
+  height: 450px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  margin-top: 0px;
+}
+
 .icon img {
   margin-top: -50px;
 }
