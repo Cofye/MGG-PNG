@@ -45,6 +45,16 @@ function getBaseGenesFromGrid() {
 
 function getFullCodesForBingo(bingo) {
   const baseGenes = getBaseGenesFromGrid();
+
+  // 🔥 MODO MONOGEN
+  if (isMonogen && window.bingoMonogen) {
+    return baseGenes.map(g => {
+      const data = window.bingoMonogen[g];
+      return data && data.id ? data.id.toUpperCase() : null;
+    }).filter(Boolean);
+  }
+
+  // 🔹 modo normal
   return baseGenes.map(g => `${g}_${bingo}`);
 }
 
@@ -68,12 +78,16 @@ async function preloadAllMutants() {
     const [key, value] = line.split(";");
     if (!key || !value) return;
     const cleanKey = key.trim().toLowerCase();
-    if (!/^specimen_[a-z]{2}_\d{2}$/i.test(cleanKey)) return;
+    if (!/^specimen_[a-z]{1,2}_\d{2}$/i.test(cleanKey)) return;
     const code = cleanKey.replace("specimen_", "").toUpperCase();
-    if (mutantExists.hasOwnProperty(code)) {
-      mutantExists[code] = true;
-      mutantNames[code] = value.trim();
-    }
+
+// 🔥 si no existe, lo creamos (para monogen)
+if (!mutantExists.hasOwnProperty(code)) {
+  mutantExists[code] = false;
+}
+
+mutantExists[code] = true;
+mutantNames[code] = value.trim();
   });
 
   console.log(`Precarga completada. ${Object.values(mutantExists).filter(v => v).length} mutantes encontrados.`);
@@ -131,9 +145,13 @@ async function loadGachaTags() {
       const raw = spec.getAttribute("specimen");
       if (!raw) return;
       let code = raw.replace("Specimen_", "").trim().toUpperCase();
-      if (mutantSkinsMap[code] && !mutantSkinsMap[code].includes(tag)) {
-        mutantSkinsMap[code].push(tag);
-      }
+      if (!mutantSkinsMap[code]) {
+  mutantSkinsMap[code] = []; // 🔥 crear para monogen
+}
+
+if (!mutantSkinsMap[code].includes(tag)) {
+  mutantSkinsMap[code].push(tag);
+}
     });
   });
 
@@ -141,7 +159,17 @@ async function loadGachaTags() {
   const specialSkins = {
     "AF_10": "purgatory",
     "CF_01": "girl",
-    "AD_01": "steampunk"
+    "AD_01": "steampunk",
+    "FB_03": "boss",
+    "EA_01": "boss",
+    "DB_01": "boss",
+    "D_01": "boss",
+    "EE_01": "boss",
+    "DC_01": "boss",
+    "BA_01": "boss",
+    "FF_01": "boss",
+    "E_01": "boss",
+    "DF_01": "boss"
   };
   for (const [code, skin] of Object.entries(specialSkins)) {
     if (!mutantSkinsMap[code]) mutantSkinsMap[code] = [];
@@ -160,29 +188,44 @@ async function renderMutantIcons() {
   console.log(`Renderizando mutantes para bingo ${currentBingo}`);
   const selectors = document.querySelectorAll(".selector");
   for (let sel of selectors) {
-    const baseGenes = sel.getAttribute("data");
-    if (!baseGenes) continue;
-    const fullCode = `${baseGenes}_${currentBingo}`;
-    const img = sel.querySelector(".m-icon");
-    
-    if (mutantExists[fullCode]) {
-      const newSrc = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${fullCode.toLowerCase()}.png`;
-      const exists = await checkImage(newSrc);
-      if (exists) {
-        img.src = newSrc;
-        img.dataset.invalid = "false";
-        sel.setAttribute("data-fullcode", fullCode);
-      } else {
-        img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
-        img.dataset.invalid = "true";
-        sel.removeAttribute("data-fullcode");
-      }
+  const baseGenes = sel.getAttribute("data");
+  if (!baseGenes) continue;
+
+  const img = sel.querySelector(".m-icon"); // ✅ MOVIDO ARRIBA
+  let fullCode;
+
+  if (isMonogen && window.bingoMonogen) {
+    const data = window.bingoMonogen[baseGenes];
+    fullCode = data && data.id ? data.id.toUpperCase() : null;
+  } else {
+    fullCode = `${baseGenes}_${currentBingo}`;
+  }
+
+  if (!fullCode) {
+    img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
+    sel.removeAttribute("data-fullcode");
+    continue;
+  }
+
+  if (mutantExists[fullCode]) {
+    const newSrc = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${fullCode.toLowerCase()}.png`;
+    const exists = await checkImage(newSrc);
+
+    if (exists) {
+      img.src = newSrc;
+      img.dataset.invalid = "false";
+      sel.setAttribute("data-fullcode", fullCode);
     } else {
       img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
       img.dataset.invalid = "true";
       sel.removeAttribute("data-fullcode");
     }
+  } else {
+    img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
+    img.dataset.invalid = "true";
+    sel.removeAttribute("data-fullcode");
   }
+}
 }
 
 // --------------------------------------------------------------
@@ -336,15 +379,20 @@ function resetRewardsToDefault() {
 // --------------------------------------------------------------
 // Cambio de bingo
 // --------------------------------------------------------------
+
+let isMonogen = false;
+
 async function selectBingo(bingoId, force = false) {
-  console.log("selectBingo llamado con:", bingoId, "force:", force);
+  console.log("Cambiando a bingo:", bingoId);
 
   if (!force && bingoId === currentBingo) {
     console.log("IGNORADO porque es el mismo bingo");
     return;
   }
 
+  isMonogen = (bingoId === "monogen");
   currentBingo = bingoId;
+
   console.log("currentBingo ahora es:", currentBingo);
 
   const buttons = document.querySelectorAll(".bingo-selector");
@@ -387,13 +435,14 @@ async function loadProfile(fullCode) {
   if (!mutantExists[fullCode]) return;
   currentMutant = fullCode;
 
-  const match = fullCode.match(/^([A-Z]{2})_(\d{2})$/);
-  if (!match) return;
-  const baseGenes = match[1];
-  const bingo = match[2];
+  const match = fullCode.match(/^([A-Z]{1,2})_(\d{2})$/);
+if (!match) return;
 
-  const gen1 = baseGenes[0].toLowerCase();
-  const gen2 = baseGenes[1].toLowerCase();
+const baseGenes = match[1];
+
+// 🧠 manejar monogen
+const gen1 = baseGenes[0]?.toLowerCase();
+const gen2 = baseGenes[1]?.toLowerCase() || baseGenes[0]?.toLowerCase();
 
   document.querySelectorAll(".p-gen")[0].src = `../IMG/gene_${gen1}.png`;
   document.querySelectorAll(".p-gen")[1].src = `../IMG/gene_${gen2}.png`;
@@ -460,9 +509,9 @@ async function generateVariants(fullCode, baseGenes, type) {
 
   // Skins: primero buscar por código completo, luego por base (sin número)
   let skins = mutantSkinsMap[fullCode] || [];
-  if (mutantSkinsMap[baseGenes]) {
-    skins = [...skins, ...mutantSkinsMap[baseGenes]];
-  }
+if (mutantSkinsMap[baseGenes]) {
+  skins = [...skins, ...mutantSkinsMap[baseGenes]];
+}
   // Eliminar duplicados
   skins = [...new Set(skins)];
 

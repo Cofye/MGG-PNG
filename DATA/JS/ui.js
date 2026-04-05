@@ -107,8 +107,31 @@ async function loadGachaTags() {
 		});
 	});
 
-	mutantSkinsMap["AF_10"] = mutantSkinsMap["AF_10"] || [];
-  mutantSkinsMap["AF_10"].push("purgatory");
+	const specialSkins = {
+  "AF_10": "purgatory",
+  "CF_01": "girl",
+  "AD_01": "steampunk",
+  "FB_03": "boss",
+  "EA_01": "boss",
+  "DB_01": "boss",
+  "D_01": "boss",
+  "EE_01": "boss",
+  "DC_01": "boss",
+  "BA_01": "boss",
+  "FF_01": "boss",
+  "E_01": "boss",
+  "DF_01": "boss"
+};
+
+for (const [code, skin] of Object.entries(specialSkins)) {
+  if (!mutantSkinsMap[code]) {
+    mutantSkinsMap[code] = [];
+  }
+
+  if (!mutantSkinsMap[code].includes(skin)) {
+    mutantSkinsMap[code].push(skin);
+  }
+}
 
 	console.log("Mapa de skins cargado:", mutantSkinsMap);
 }
