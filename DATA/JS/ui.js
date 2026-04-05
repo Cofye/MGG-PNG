@@ -89,8 +89,7 @@ async function loadGachaTags() {
 
 		// Buscar en ambas secciones
 		const specimens = [
-			...gacha.querySelectorAll("BasicElements GachaSpecimen"),
-			...gacha.querySelectorAll("CompletionReward GachaSpecimen")
+			...gacha.querySelectorAll("BasicElements GachaSpecimen")
 		];
 
 		specimens.forEach(spec => {
