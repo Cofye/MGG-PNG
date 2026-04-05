@@ -1,0 +1,311 @@
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#scale-container {
+  position: absolute;
+  transform-origin: top left;
+  flex-direction: row;
+  display: flex;
+}
+
+.text {
+  font-family: "Bahnschrift Condensed";
+  font-style: normal;
+  font-weight: 700;
+  transform: scale(2.5, 3.6);
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+}
+
+#bingo {
+  margin-top: 48.2px;
+  margin-left: -15.2px;
+  height: 1116px;
+  display: flex;
+  flex-direction: row;
+  gap: 5.5px;
+}
+#profil {
+  height: 1180.6px;
+  width: 646.3px;
+  display: flex;
+  justify-content: center;
+}
+.bingos {
+  margin-top: 70.7px;
+  height: 1093.5px;
+  width: 84.7px;
+  margin-left: 31px;
+}
+
+
+
+.column {
+  height: 1117px;
+  width: 139px;
+  display: flex;
+  flex-direction: column;
+  background-image: url(https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/gradient.png);
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.no-column {
+  height: 1016px;
+  width: 151px;
+  margin-top: 113px;
+  display: flex;
+  flex-direction: column;
+}
+
+.selector {
+  height: 120px;
+  margin-top: 21.2px;
+  margin-left: 9.6px;
+}
+
+.gene {
+  margin-top: 7px;
+  position: relative;
+}
+.g-background {
+  height: 81px;
+  left: 40px;
+  position: relative;
+}
+.g-gen {
+  height: 61.5px;
+  position: absolute;
+  left: 45.3px;
+  top: 7.3px;
+}
+
+.geneh {
+  margin-top: 26.5px;
+  margin-bottom: 50px;
+  position: relative;
+}
+.gh-background {
+  height: 59px;
+  left: 43px;
+  position: relative;
+}
+.gh-icon {
+  height: 61.5px;
+  position: relative;
+  left: -32px;
+  top: 5px;
+}
+
+.m-background {
+  height: 120px;
+  position: absolute;
+}
+.m-icon {
+  height: 116.5px;
+  position: relative;
+  cursor: pointer;
+  top: 1.7px;
+  left: 1.7px;
+  transition: filter 0.2s, transform 0.2s;
+}
+.m-gen1 {
+  height: 57.7px;
+  position: relative;
+  top: -119.3px;
+  left: 54.5px;
+}
+.m-gen2 {
+  height: 57.7px;
+  position: relative;
+  top: -119.3px;
+  left: 43px;
+}
+
+.rewardv-icon {
+  margin-top: 15.8px;
+  margin-left: 15.6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.rv-background {
+  height: 151px;
+  position: absolute;
+}
+.rv-icon {
+  height: 204px;
+  left: -46px;
+  top: -26.7px;
+  position: absolute;
+}
+.rv-text {
+  position: relative;
+  text-align: center;
+  margin-top: 50px;
+  margin-left: -10px;
+  font-size: 75%;
+}
+
+.rewardh-icon {
+  margin-bottom: 108px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.rh-background {
+  height: 112px;
+  position: absolute;
+}
+.rh-icon {
+  height: 204px;
+  left: -13.3px;
+  top: -55px;
+  position: absolute;
+}
+.rh-text {
+  position: relative;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 22px;
+  font-size: 75%;
+}
+
+.reward-icon {
+  margin-top: -27px;
+  margin-left: -20.5px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.r-background {
+  height: 206px;
+  position: absolute;
+}
+.r-icon {
+  height: 204px;
+  left: 3px;
+  top: -5px;
+  position: absolute;
+}
+.r-larva {
+  height: 150px;
+  left: 70px;
+  top: 20px;
+  position: absolute;
+  transform: rotate(10deg);
+}
+.r-text {
+  position: relative;
+  text-align: center;
+  margin-top: 70px;
+  margin-left: 35px;
+  font-size: 75%;
+  z-index: 1;
+}
+
+.bg {
+  height: 1148.6px;
+  margin-top: 32px;
+  position: absolute;
+}
+
+.mutant {
+  height: 460px;
+  margin-top: 383px;
+  position: absolute;
+}
+
+.larva {
+  height: 309.5px;
+  margin-top: 857.2px;
+  position: absolute;
+  transform: rotate(10deg)
+}
+
+.type {
+  height: 172px;
+  margin-top: 280px;
+  margin-left: 443.5px;
+  position: absolute;
+  transform: rotate(10deg)
+}
+
+.profil-text {
+  position: absolute;
+  text-align: center;
+  margin-top: 143px;
+}
+
+.profil-gen {
+  height: 115px;
+  width: 181.5px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+}
+
+.p-gen {
+  height: 115px;
+  position: relative;
+}
+
+.versions {
+  height: 91.5px;
+  width: 576.2px;
+  margin-top: 189px;
+  justify-content: center;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+}
+
+.skin {
+  height: 91.5px;
+  width: 96px;
+  position: relative;
+}
+.skin-background {
+  height: 91.5px;
+  width: 96px;
+  position: absolute;
+}
+.skin-icon {
+  height: 91.5px;
+  margin-left: 2.3px;
+  position: absolute;
+}
+
+.bingo-icon {
+  height: 131.8px;
+  width: 84.7px;
+  margin-top: -22.5px;
+  position: relative;
+}
+.b-background {
+  height: 131.8px;
+  position: absolute;
+}
+.b-icon {
+  height: 84.7px;
+  position: absolute;
+}
