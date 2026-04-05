@@ -139,7 +139,7 @@ async function loadGachaTags() {
 
   // Añadir skins especiales manualmente
   const specialSkins = {
-    "AF_10": "purrgatory",
+    "AF_10": "purgatory",
     "CF_01": "girl",
     "AD_01": "steampunk"
   };
