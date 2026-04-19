@@ -108,6 +108,7 @@ async function loadGachaTags() {
 
 	const specialSkins = {
   "AF_10": "purgatory",
+	"DD_05": "spring",
   "CF_01": "girl",
   "AD_01": "steampunk",
   "FB_03": "boss",
