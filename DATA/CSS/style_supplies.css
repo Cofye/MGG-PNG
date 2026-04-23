@@ -1,0 +1,49 @@
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#scale-container {
+  position: absolute;
+  transform-origin: top left;
+}
+
+.arena-block {
+  width: 1300px;
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 20px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
+.material {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.aarena-block img {
+  display: block;
+}
+
+.logo {
+  height: 60px;
+}
+
+.banner {
+  height: 200px;
+}
+
+.background {
+  height: 200px;
+}
