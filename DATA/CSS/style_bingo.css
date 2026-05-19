@@ -4,7 +4,38 @@ html, body {
 
 #scale-container {
   width: 1840px;
-  transform-origin: top left; 
+  transform-origin: top left;
+}
+
+/* BARRA SCROLL */
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-track {
+  background: #182b44;
+}
+::-webkit-scrollbar-thumb {
+  background: #4881c2;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #759fcf ;
+}
+#loader-container {
+  position: fixed;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  z-index: 999;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loader-container img {
+  height: 40vh;
 }
 
 body {
@@ -106,6 +137,7 @@ body {
 }
 
 .mutants{
+  position: relative;
   width: 1450px;
   display: flex;
   flex-wrap: wrap;
@@ -155,6 +187,16 @@ body {
   transform-origin: bottom center;
 }
 
+.pnghd {
+  height: 250px;
+  width: auto;
+  left: 50%;
+  bottom: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
 .base .mutant img {
   left: 50%;
   bottom: 25%;
@@ -175,4 +217,14 @@ body {
 
 .hidden {
   display: none;
+}
+
+.loader {
+  height: 150px;
+  width: auto;
+  left: 50%;
+  bottom: 100%;
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
 }

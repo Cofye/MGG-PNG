@@ -10,6 +10,21 @@ body {
   background-attachment: fixed;
 }
 
+/* BARRA SCROLL */
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-track {
+  background: #182b44;
+}
+::-webkit-scrollbar-thumb {
+  background: #4881c2;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #759fcf ;
+}
+
 #scale-container {
   position: absolute;
   transform-origin: top left;
