@@ -1,27 +1,38 @@
-html, body {
+@font-face {
+  font-family: 'Bahnschrift';
+  src: url('../FONT/bahnschrift.ttf') format('truetype');
+  font-stretch: semi-condensed;
+}
+
+html {
   overflow-x: hidden;
 }
 
-#scale-container {
-  width: 1840px;
-  transform-origin: top left;
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-/* BARRA SCROLL */
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: #182b44;
 }
 ::-webkit-scrollbar-thumb {
   background: #4881c2;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #759fcf ;
 }
+
 #loader-container {
+  height: 100%;
+  width: 100%;
   position: fixed;
   background: rgba(0,0,0,0.7);
   backdrop-filter: blur(7px);
@@ -35,21 +46,88 @@ html, body {
 }
 
 #loader-container img {
-  height: 40vh;
+  height: 40vh; /* Se mantiene la unidad original */
 }
 
-body {
-  background-image: url(../IMG/background.png);
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(0.380vw); /* 7px */
+  -webkit-backdrop-filter: blur(0.380vw);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal {
+  position: fixed;
+  zmargin-top: 47vh;              /* o 50vh, ambos funcionan */
+  zleft: 2%;              /* lo dejas como lo tenías */
+  ztransform: translateY(50vh);  /* desplaza hacia arriba la mitad de su altura */
+  z-index: 4;
+  background: rgba(0,0,0,0.5);
+  awidth: 100vw;
+  /* elimina height: 0px; porque un modal no debe tener altura cero */
+}
+
+.bigmutant {
+  height: 11.5vw; /* 105px */
+  width: 27vw; /* 250px */
+  grid-column: 2;
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 21.5vw; /* 197.5px */
+  justify-content: center;
+  align-items: center;
+  background-image: url(../IMG/platform.png);
   background-size: cover;
   background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  position: relative;
+}
+
+.bigpng {
+  height: 27vw; /* 250px */
+  width: auto;
+  left: 50%;
+  bottom: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+.bigpnghd {
+  height: 27vw; /* 250px */
+  width: auto;
+  left: 50%;
+  bottom: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+.bigversion {
+  margin-top: 25%;
+  height: 16vw; /* 150px */
+  position: absolute;
+}
+
+.bigtag {
+  top: -21.6vw; /* -200px */
+  left: 19vw; /* 180px */
+  height: 8vw; /* 75px */
+  position: absolute;
 }
 
 .name {
-  font-family: "Bahnschrift Condensed";
-  font-style: normal;
+  font-family: 'Bahnschrift', sans-serif;
+  font-stretch: semi-condensed;
   font-weight: 700;
+  transform: scale(1.25, 1.8);
   display: inline-block;
   letter-spacing: -0.5px;
   color: #fff;
@@ -62,100 +140,101 @@ body {
     -1px  1px 0 #000,
     1px -1px 0 #000,
     1px  1px 0 #000;
+  transform-origin: 0 0;
   position: absolute;
-  margin-top: 80px;
-  width: 250px;
-  transform: scale(1.83, 2.5);
+  margin-top: 4.348vw; /* 80px */
   transform-origin: top center;
-  width: calc(250px / 1.83);
-  white-space: normal;
+  width: calc(13.587vw / 1.83);
   overflow-wrap: break-word;
   text-align: center;
   line-height: 1;
+  z-index: 2;
 }
 
 .año {
   color: #ffd026;
-  margin-top: 190px;
-  height: 150px;
   position: absolute;
 }
 
 .info {
-  height: 135px;
-  width: 250px;
+  height: 7.337vw; /* 135px */
+  width: 13.587vw; /* 250px */
   flex-shrink: 0;
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-top: 0px;
+  margin-top: 0vw;
+}
+
+.genes img {
+  width: 4vw;
+}
+
+.icon img{
+  margin-top: -2.717vw; /* -50px */
+  width: 10vw;
 }
 
 .big {
-  margin-top: -32.5px;
-  height: 200px;
+  margin-top: -1.766vw; /* -32.5px */
+  height: 10.87vw; /* 200px */
   width: auto;
   position: absolute;
   z-index: -1;
 }
 
 .larva {
-  margin-top: 0px;
-  height: 150px;
+  margin-top: 0vw;
+  height: 8.152vw; /* 150px */
   width: auto;
   position: absolute;
-  z-index: -1;
-  margin-top: 150px;
+  margin-top: 8.152vw; /* 150px */
   transform: rotate(10deg);
 }
 
-.gatcha{
-  top: 150px;
-  height: 450px;
+.gatcha {
+  top: 8.152vw; /* 150px */
+  height: 24.457vw; /* 450px */
   flex-shrink: 0;
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-top: 0px;
-}
-
-.icon img {
-  margin-top: -50px;
+  margin-top: 0vw;
 }
 
 .version {
   margin-top: 25%;
-  height: 150px;
+  height: 8.152vw; /* 150px */
   position: absolute;
 }
 
 .tag {
-  top:-200px;
-  left: 180px;
-  height: 75px;
+  top: -10.87vw; /* -200px */
+  left: 9.783vw; /* 180px */
+  height: 4.076vw; /* 75px */
   position: absolute;
 }
 
 .mutants{
   position: relative;
-  width: 1450px;
+  width: 78.804vw; /* 1450px */
   display: flex;
   flex-wrap: wrap;
-  column-gap: 50px;
-  row-gap: 10px;
+  column-gap: 2.717vw; /* 50px */
+  row-gap: 0.543vw; /* 10px */
   overflow: visible;
   align-items: flex-start;
-  margin-left: 300px;
-  margin-bottom: 70px;
+  margin-left: 16.304vw; /* 300px */
+  margin-bottom: 3.804vw; /* 70px */
 }
 
 .mutant {
-  height: 105px;
-  width: 250px;
+  height: 5.707vw; /* 105px */
+  width: 13.587vw; /* 250px */
   grid-column: 2;
   flex-shrink: 0;
   display: flex;
-  margin-top: 197.5px;
+  margin-top: 10.734vw; /* 197.5px */
   justify-content: center;
   align-items: center;
   background-image: url(../IMG/platform.png);
@@ -178,7 +257,7 @@ body {
 }
 
 .png {
-  height: 250px;
+  height: 13.587vw; /* 250px */
   width: auto;
   left: 50%;
   bottom: 50%;
@@ -188,7 +267,7 @@ body {
 }
 
 .pnghd {
-  height: 250px;
+  height: 13.587vw; /* 250px */
   width: auto;
   left: 50%;
   bottom: 50%;
@@ -207,20 +286,20 @@ body {
 }
 
 .x50 .mutant img {
-  height: 125px;
+  height: 6.793vw; /* 125px */
   width: auto;
 }
 .x75 .mutant img {
-  height: 187.5px;
+  height: 10.19vw; /* 187.5px */
   width: auto;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .loader {
-  height: 150px;
+  height: 8.152vw; /* 150px */
   width: auto;
   left: 50%;
   bottom: 100%;
