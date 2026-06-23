@@ -1,0 +1,62 @@
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background-image: url(../IMG/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* BARRA SCROLL */
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-track {
+  background: #182b44;
+}
+::-webkit-scrollbar-thumb {
+  background: #4881c2;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #759fcf ;
+}
+
+#scale-container {
+  position: absolute;
+  transform-origin: top left;
+}
+
+.popup-block {
+  width: 1230px;
+  zmargin: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 230px);
+  gap: 20px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
+.aarena-block img {
+  display: block;
+}
+
+.logo {
+  height: 60px;
+}
+
+.banner {
+  height: 200px;
+}
+
+.popup {
+  height: 230px;
+}
+
+.background {
+  height: 200px;
+}

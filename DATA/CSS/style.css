@@ -67,9 +67,9 @@ body {
   width: 100%;
   height: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(309px, 1fr));
-  row-gap: 20px;
-  column-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(247px, 1fr));
+  row-gap: 16px;
+  column-gap: 16px;
   overflow: visible;
 }
 
@@ -79,8 +79,8 @@ body {
 }
 
 .bg {
-  height: 100px; /* 143px */
-  width: 309px; /* 430px */
+  height: 80px; /* 143px */
+  width: 247px; /* 430px */
   display: flex;
   background-image: url(../IMG/selector.png);
   background-size: cover;
@@ -96,17 +96,19 @@ body {
 }
 
 .bingo {
-  height: 80px; /* 115px */
-  margin-top: 7px; /* 7px */
-  margin-left: 20px; /* 30px */
+  max-height: 64px;
+  width: 64px;
+  object-fit: contain;
+  margin-top: 5.5px;
+  margin-left: 16px;
   position: relative;
 }
 
 .bingoText {
-  margin-top: 20px; /* 30px */
-  margin-left: 120px; /* 160px */
+  margin-top: 16px; /* 30px */
+  margin-left: 96px; /* 160px */
   position: absolute;
-  font-size: 120%; /* Mantiene escala nativa relativa */
+  font-size: 96%; /* Mantiene escala nativa relativa */
 }
 
 .name-list {
