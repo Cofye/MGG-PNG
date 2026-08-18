@@ -55,8 +55,8 @@ body {
 }
 
 .text {
-  font-family: "Bahnschrift Condensed";
-  font-style: normal;
+  font-family: 'Bahnschrift', sans-serif;
+  font-stretch: semi-condensed;
   font-weight: 700;
   transform: scale(2.5, 3.6);
   display: inline-block;

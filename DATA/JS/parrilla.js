@@ -224,15 +224,16 @@ async function loadGachaTags() {
   const specialSkins = {
     "AF_10": "purgatory",
     "CF_01": "girl",
+    "DD_05": "spring",
     "AD_01": "steampunk",
-    "FB_03": "boss",
-    "EA_01": "boss",
-    "DB_01": "boss",
-    "D_01": "boss",
+    "FB_03": "gachaboss",
+    "EA_01": "gachaboss",
+    "DB_01": "gachaboss",
+    "D_01": "gachaboss",
     "EE_01": "boss",
     "DC_01": "boss",
     "BA_01": "boss",
-    "FF_01": "boss",
+    "FF_01": "gachaboss",
     "E_01": "boss",
     "DF_01": "boss"
   };
@@ -323,17 +324,27 @@ function buildGrid(data) {
     return;
   }
 
-  // Primera columna (encabezados de fila)
+// Primera columna (encabezados de fila)
   const firstCol = document.createElement("div");
   firstCol.className = "no-column";
   for (let r = 0; r < numRows; r++) {
     const geneh = document.createElement("a");
     geneh.className = "geneh";
-    const iconPath = lineIcons && lineIcons[r] ? lineIcons[r] : "icon-morpho/gene_all.png";
+    // Si no hay icono definido o está vacío, usar gene_none.png (local)
+    let iconPath = (lineIcons && lineIcons[r] && lineIcons[r].trim() !== '') 
+      ? lineIcons[r] 
+      : "../IMG/gene_none.png";
+    // Determinar src del icono: si empieza con "icon-morpho/" es de assets, sino es local
+    let iconSrc;
+    if (iconPath.startsWith('icon-morpho/')) {
+      iconSrc = `https://s-ak.kobojo.com/mutants/assets/${iconPath}`;
+    } else {
+      iconSrc = iconPath; // local, ej: ../IMG/gene_none.png
+    }
     geneh.innerHTML = `
       <div class="geneh-icon">
         <img class="gh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene.png">
-        <img class="gh-icon" src="https://s-ak.kobojo.com/mutants/assets/${iconPath}">
+        <img class="gh-icon" src="${iconSrc}">
       </div>
     `;
     firstCol.appendChild(geneh);
@@ -348,11 +359,19 @@ function buildGrid(data) {
     // Encabezado de columna
     const gene = document.createElement("a");
     gene.className = "gene";
-    const colIcon = colIcons && colIcons[c] ? colIcons[c] : "icon-morpho/gene_all.png";
+    let iconPath = (colIcons && colIcons[c] && colIcons[c].trim() !== '') 
+      ? colIcons[c] 
+      : "../IMG/gene_none.png";
+    let iconSrc;
+    if (iconPath.startsWith('icon-morpho/')) {
+      iconSrc = `https://s-ak.kobojo.com/mutants/assets/${iconPath}`;
+    } else {
+      iconSrc = iconPath;
+    }
     gene.innerHTML = `
       <div class="gene-icon">
         <img class="g-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene_v.png">
-        <img class="g-gen" src="https://s-ak.kobojo.com/mutants/assets/${colIcon}">
+        <img class="g-gen" src="${iconSrc}">
       </div>
     `;
     colDiv.appendChild(gene);
@@ -364,66 +383,65 @@ function buildGrid(data) {
       const { specimenId, skin, variantType, variantValue } = cell;
       const code = specimenId.toUpperCase();
 
-  // Dentro del bucle de creación de selectores
-  const selector = document.createElement("a");
-  selector.className = "selector";
-  selector.dataset.code = code;
-  if (skin) selector.dataset.skin = skin;
-  if (variantType === 'base') {
-    selector.dataset.variantType = 'base';
-    selector.dataset.variantValue = variantValue;
-  }
+      const selector = document.createElement("a");
+      selector.className = "selector";
+      selector.dataset.code = code;
+      if (skin) selector.dataset.skin = skin;
+      if (variantType === 'base') {
+        selector.dataset.variantType = 'base';
+        selector.dataset.variantValue = variantValue;
+      }
 
-  // URL de miniatura (base siempre, sin sufijo de estrella)
-let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
-if (skin) {
-  thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
-} else if (variantType === 'base') {
-  const starNames = ['bronze', 'silver', 'gold', 'platinum'];
-  const starName = starNames[variantValue - 1];
-  if (starName) {
-    thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
-  }
-}
+      // URL de miniatura (con estrella si corresponde)
+      let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+      if (skin) {
+        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
+      } else if (variantType === 'base') {
+        const starNames = ['bronze', 'silver', 'gold', 'platinum'];
+        const starName = starNames[variantValue - 1];
+        if (starName) {
+          thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+        }
+      }
 
-  // Overlay de skin o estrella
-  let skinImgHTML = '';
-  if (skin) {
-    const skinUrl = getSkinImageUrl(skin);
-    skinImgHTML = `<img class="m-skin" src="${skinUrl}" onerror="this.style.display='none'">`;
-  } else if (variantType === 'base') {
-    const starNames = ['bronze', 'silver', 'gold', 'platinum'];
-    const starName = starNames[variantValue - 1];
-    if (starName) {
-      const starUrl = getSkinImageUrl(starName);
-      skinImgHTML = `<img class="m-skin" src="${starUrl}" onerror="this.style.display='none'">`;
-    }
-  }
+      // Overlay de skin o estrella
+      let skinImgHTML = '';
+      if (skin) {
+        const skinUrl = getSkinImageUrl(skin);
+        skinImgHTML = `<img class="m-skin" src="${skinUrl}" onerror="this.style.display='none'">`;
+      } else if (variantType === 'base') {
+        const starNames = ['bronze', 'silver', 'gold', 'platinum'];
+        const starName = starNames[variantValue - 1];
+        if (starName) {
+          const starUrl = getSkinImageUrl(starName);
+          skinImgHTML = `<img class="m-skin" src="${starUrl}" onerror="this.style.display='none'">`;
+        }
+      }
 
-  // Genes
-  const { gen1, gen2 } = getGenesFromCode(code);
+      // Genes
+      const { gen1, gen2 } = getGenesFromCode(code);
 
-  selector.innerHTML = `
-    <div class="mutant-icon">
-      <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
-      <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
-      ${skinImgHTML}
-      <img class="m-gen1" src="../IMG/gene_${gen1}.png">
-      <img class="m-gen2" src="../IMG/gene_${gen2}.png">
-    </div>
-  `;
+      selector.innerHTML = `
+        <div class="mutant-icon">
+          <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
+          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
+          ${skinImgHTML}
+          <img class="m-gen1" src="../IMG/gene_${gen1}.png">
+          <img class="m-gen2" src="../IMG/gene_${gen2}.png">
+        </div>
+      `;
 
-  // Deshabilitar si no existe
-  if (!mutantExists[code]) {
-    selector.classList.add('disabled');
-    selector.style.cursor = 'default';
-    selector.title = 'Mutante no disponible';
-  } else {
-    selector.addEventListener("click", (e) => {
-      e.preventDefault();
-      selectMutant(selector);
-    });
-  }
+      // Deshabilitar si no existe
+      if (!mutantExists[code]) {
+        selector.classList.add('disabled');
+        selector.style.cursor = 'default';
+        selector.title = 'Mutante no disponible';
+      } else {
+        selector.addEventListener("click", (e) => {
+          e.preventDefault();
+          selectMutant(selector);
+        });
+      }
 
       colDiv.appendChild(selector);
     }
@@ -433,7 +451,8 @@ if (skin) {
     const rewardv = document.createElement("a");
     rewardv.className = "rewardv";
     rewardv.dataset.col = c;
-    const vAmount = rewardV ? formatRewardAmount(rewardV.amount) : ' ';
+    // Si no hay recompensa, texto "nada" y sin icono
+    const vAmount = rewardV ? formatRewardAmount(rewardV.amount) : '­';
     const vIconHTML = rewardV ? buildRewardIcon(rewardV, "rv-icon") : `<img class="rv-icon" src="" style="display:none;">`;
     rewardv.innerHTML = `
       <div class="rewardv-icon">
@@ -456,7 +475,7 @@ if (skin) {
     const rewardh = document.createElement("a");
     rewardh.className = "rewardh";
     rewardh.dataset.row = r;
-    const hAmount = reward ? formatRewardAmount(reward.amount) : ' ';
+    const hAmount = reward ? formatRewardAmount(reward.amount) : '­';
     const hIconHTML = reward ? buildRewardIcon(reward, "rh-icon") : `<img class="rh-icon" src="" style="display:none;">`;
     rewardh.innerHTML = `
       <div class="rewardh-icon">
@@ -471,7 +490,7 @@ if (skin) {
   // Recompensa especial
   const special = document.createElement("a");
   special.className = "reward";
-  const spAmount = specialReward ? formatRewardAmount(specialReward.amount) : ' ';
+  const spAmount = specialReward ? formatRewardAmount(specialReward.amount) : '­';
   const spIconHTML = specialReward ? buildRewardIcon(specialReward, "r-icon") : `<img class="r-icon" src="" style="display:none;">`;
   special.innerHTML = `
     <div class="reward-icon">
