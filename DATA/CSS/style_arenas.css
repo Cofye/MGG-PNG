@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Bahnschrift';
+  src: url('../FONT/bahnschrift.ttf') format('truetype');
+  font-stretch: semi-condensed;
+}
+
 html, body {
   overflow-x: hidden;
 }
@@ -10,24 +16,48 @@ body {
   background-attachment: fixed;
 }
 
-/* BARRA SCROLL */
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: #182b44;
 }
 ::-webkit-scrollbar-thumb {
   background: #4881c2;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #759fcf ;
 }
 
-#scale-container {
-  position: absolute;
-  transform-origin: top left;
+/* Contenedor que agrupa título + bingo */
+.bingo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* centra horizontalmente */
+  width: 100%;
+}
+
+.text {
+  margin: 20px;
+  font-family: 'Bahnschrift', sans-serif;
+  font-stretch: semi-condensed;
+  font-weight: 1000;
+  transform: scale(1.875, 2.7);
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+  transform-origin: 0 0;
+  position: relative;
 }
 
 .arena-block {

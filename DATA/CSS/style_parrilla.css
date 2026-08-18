@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Bahnschrift';
+  src: url('../FONT/bahnschrift.ttf') format('truetype');
+  font-stretch: semi-condensed;
+}
+
 html, body {
   overflow-x: hidden;
 }
@@ -8,6 +14,7 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  zoom: 0.5;
 }
 
 #scale-container {
@@ -15,6 +22,36 @@ body {
   transform-origin: top left;
   flex-direction: row;
   display: flex;
+}
+
+.bingo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 650px;    /* centra horizontalmente */
+  width: 1100px;
+  height: 50px;
+}
+.text-title {
+  font-family: 'Bahnschrift', sans-serif;
+  font-stretch: semi-condensed;
+  font-weight: 1000;
+  transform: scale(3.6, 5.4);
+  display: inline-block;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-shadow:
+    -1px 0 0 #000,
+    1px 0px 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px  1px 0 #000,
+    1px -1px 0 #000,
+    1px  1px 0 #000;
+  transform-origin: center center;
+  margin-top: 50px;
+  margin-left: -6%;
 }
 
 .text {
@@ -37,8 +74,8 @@ body {
 }
 
 #bingo {
-  margin-top: 48.2px;
-  margin-left: -15.2px;
+  margin-top: 20px;
+  margin-left: -50px;
   height: 1116px;
   display: flex;
   flex-direction: row;
@@ -49,12 +86,7 @@ body {
   width: 646.3px;
   display: flex;
   justify-content: center;
-}
-.bingos {
-  margin-top: 70.7px;
-  height: 1093.5px;
-  width: 84.7px;
-  margin-left: 31px;
+  position: absolute;
 }
 
 
@@ -95,8 +127,8 @@ body {
 .g-gen {
   height: 61.5px;
   position: absolute;
-  left: 45.3px;
-  top: 7.3px;
+  left: 38px;
+  top: 1px;
 }
 
 .geneh {
@@ -112,8 +144,8 @@ body {
 .gh-icon {
   height: 61.5px;
   position: relative;
-  left: -32px;
-  top: 5px;
+  left: -40px;
+  top: 0px;
 }
 
 .m-background {
@@ -127,6 +159,12 @@ body {
   top: 1.7px;
   left: 1.7px;
   transition: filter 0.2s, transform 0.2s;
+}
+.m-skin {
+  height: 116.5px;
+  position: absolute;
+  margin-left: -165px;
+  z-index: 99 ;
 }
 .m-gen1 {
   height: 57.7px;
@@ -158,6 +196,19 @@ body {
   top: -26.7px;
   position: absolute;
 }
+.rv-larva {
+  height: 120px;
+  left: 25px;
+  top: 25px;
+  position: absolute;
+  transform: rotate(10deg);
+}
+.rv-larva-skin {
+  height: 60px;
+  left: 25px;
+  top: 65px;
+  position: absolute;
+}
 .rv-text {
   position: relative;
   text-align: center;
@@ -180,6 +231,19 @@ body {
   height: 204px;
   left: -13.3px;
   top: -55px;
+  position: absolute;
+}
+.rh-larva {
+  height: 120px;
+  left: 60px;
+  top: 0px;
+  position: absolute;
+  transform: rotate(10deg);
+}
+.rh-larva-skin {
+  height: 60px;
+  left: 60px;
+  top: 35px;
   position: absolute;
 }
 .rh-text {
@@ -213,6 +277,12 @@ body {
   top: 20px;
   position: absolute;
   transform: rotate(10deg);
+}
+.r-larva-skin {
+  height: 100px;
+  left: 55px;
+  top: 50px;
+  position: absolute;
 }
 .r-text {
   position: relative;
@@ -295,17 +365,51 @@ body {
   position: absolute;
 }
 
+/* Contenedor principal */
+.bingos {
+  display: grid;
+  grid-template-columns: repeat(8, 84.7px);
+  justify-content: center;
+  align-items: start;        /* alinea los botones al inicio de la celda (arriba) */
+  gap: 10px 15px;
+  margin: 50px auto 0 auto;  /* margen superior y centrado horizontal */
+  max-width: 600px;
+  margin-left: 120px;
+  z-index: 99;
+}
+
+/* Cada botón */
+.bingo-selector {
+  display: block;
+  width: 84.7px;
+  height: 131.8px;           /* altura fija */
+  padding: 0;
+  margin: 0;
+  /* opcional: fondo de depuración, luego quítalo */
+  /* background-color: red; */
+}
+
+/* Icono interior (ahora sin margin-top negativo) */
 .bingo-icon {
   height: 131.8px;
   width: 84.7px;
-  margin-top: -22.5px;
   position: relative;
+  /* margin-top: -22.5px;  ELIMINADO */
 }
+
+/* Fondo del botón */
 .b-background {
   height: 131.8px;
   position: absolute;
+  top: 0;
+  left: 0;
 }
+
+/* Icono central */
 .b-icon {
   height: 84.7px;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -65%); /* centra el icono dentro del botón */
 }

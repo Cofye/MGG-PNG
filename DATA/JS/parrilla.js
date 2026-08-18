@@ -1,30 +1,105 @@
+// ============================================================
+//  VARIABLES GLOBALES
+// ============================================================
 let selectedVariant = null;
 let currentMutant = null;
-let currentBingo = "01";
+let currentBingoUrl = null;
+let currentBingoData = null;
 
-let mutantTypes = {};           // fullCode -> type
-let mutantNames = {};           // fullCode -> name
-let mutantExists = {};          // fullCode -> boolean
-let mutantSkinsMap = {};        // fullCode (o base) -> [skin tags]
+let mutantExists = {};
+let mutantNames = {};
+let mutantTypes = {};
+let mutantSkinsMap = {};
 
-let rewardsRenderId = 0;
 
-const ALL_BASE_GENES = (() => {
-  const bases = [];
-  const letters = ['A','B','C','D','E','F'];
-  for (let g1 of letters) {
-    for (let g2 of letters) {
-      bases.push(g1 + g2);
-    }
-  }
-  return bases;
-})();
+// Lista de botones (ejemplo)
+const bingoButtons = [
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_starter.xml", icon: "../IMG/morphology_starter.png", name: "Iniciación" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1.xml", icon: "../IMG/morphology_season_1.png", name: "Hibridación" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_2.xml", icon: "../IMG/morphology_season_2.png", name: "Investigación I" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_3.xml", icon: "../IMG/morphology_season_3.png", name: "Investigación II" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_4.xml", icon: "../IMG/morphology_season_4.png", name: "Investigación III" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_5.xml", icon: "../IMG/morphology_season_5.png", name: "Investigación IV" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_6.xml", icon: "../IMG/morphology_season_6.png", name: "Investigación V" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_7.xml", icon: "../IMG/morphology_season_7.png", name: "Investigación VI" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_8.xml", icon: "../IMG/morphology_season_8.png", name: "Investigación VII" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_9.xml", icon: "../IMG/morphology_season_9.png", name: "Investigación VIII" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_10.xml", icon: "../IMG/morphology_season_10.png", name: "Investigación IX" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_11.xml", icon: "../IMG/morphology_season_11.png", name: "Investigación X" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_12.xml", icon: "../IMG/morphology_season_12.png", name: "Investigación XI" },
+  { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_13.xml", icon: "../IMG/morphology_season_13.png", name: "Investigación XII" },
+  { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_14.xml", icon: "../IMG/morphology_season_14.png", name: "Investigación XIII" },
+  { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_15.xml", icon: "../IMG/morphology_season_15.png", name: "Investigación XIV" },
+  { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_99.xml", icon: "../IMG/morphology_season_99.png", name: "Investigación Indefinida" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_reactor_1.xml", icon: "../IMG/morphology_reactor_1.png", name: "Reactor I" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_legendary.xml", icon: "../IMG/morphology_legendary.png", name: "Legendarios" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_zodiac.xml", icon: "../IMG/morphology_zodiac.png", name: "Zodiaco" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_zodiac_silver.xml", icon: "../IMG/morphology_zodiac_silver.png", name: "Zodiaco Plata" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_xmas2015.xml", icon: "../IMG/bingo_event.png", name: "Eventos" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_amazons.xml", icon: "../IMG/bingo_amazons.png", name: "Amazonas Plata" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_bronze.xml", icon: "../IMG/bingo_bronze.png", name: "Hibridación Bronce" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_silver.xml", icon: "../IMG/bingo_silver.png", name: "Hibridación Plata" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_gold.xml", icon: "../IMG/bingo_gold.png", name: "Hibridación Oro" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_platinum.xml", icon: "../IMG/bingo_platinum.png", name: "Hibridación Platino" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_starter_platinum.xml", icon: "../IMG/morphology_starter_platinum.png", name: "Iniciación Platino" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_rumble.xml", icon: "../IMG/morphology_rumble.png", name: "Pelea" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_heroic.xml", icon: "../IMG/morphology_heroic.png", name: "Heroicos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2016.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2017.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2018.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2019.xml", icon: "../IMG/morphology_event_2019.png", name: "2019 Eventos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2019.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2020.xml", icon: "../IMG/morphology_event_2019.png", name: "2020 Eventos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2020.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2021.xml", icon: "../IMG/morphology_event_2019.png", name: "2021 Eventos" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary21.xml", icon: "../IMG/morphology_event_2019.png", name: "8° Aniversario" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2021.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2022.xml", icon: "../IMG/morphology_event_2019.png", name: "2022 Eventos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2022.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2023.xml", icon: "../IMG/morphology_event_2019.png", name: "2023 Eventos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_10years.xml", icon: "../IMG/morphology_10years.png", name: "Realidades Cruzadas" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2023.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2024.xml", icon: "../IMG/morphology_event_2019.png", name: "2024 Eventos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary24.xml", icon: "../IMG/morphology_conspiracy.png", name: "11° Aniversario" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2024.xml", icon: "../IMG/morphology_winter.png", name: "Invierno 2024" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2025_skins.xml", icon: "../IMG/morphology_2025_skins.png", name: "Skins 2025" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2025_mutants.xml", icon: "../IMG/morphology_2025_mutants.png", name: "Mutantes 2025" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2025_events.xml", icon: "../IMG/morphology_2025_events.png", name: "2025 Eventos" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary25.xml", icon: "../IMG/morphology_10years.png", name: "12° Aniversario" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2025.xml", icon: "../IMG/morphology_winter.png", name: "Invierno 2025" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_skins.xml", icon: "../IMG/morphology_2026_skins.png", name: "Skins 2026" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_mutants.xml", icon: "../IMG/morphology_2026_mutants.png", name: "Mutantes 2026" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_events.xml", icon: "../IMG/morphology_2026_events.png", name: "Eventos 2026" },
+  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary26.xml", icon: "../IMG/morpho_hexcity.png", name: "13° Aniversario" },
+  { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_monogene_1.xml", icon: "../IMG/morphology_monogen.png", name: "Monogen 1" },
+  { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_monogene_2.xml", icon: "../IMG/morphology_monogen.png", name: "Monogen 2" },
+];
 
-const ALL_BINGOS = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','99'];
+function renderBingoButtons() {
+  const container = document.getElementById('bingo-buttons');
+  container.innerHTML = '';
 
-// --------------------------------------------------------------
-// Utilidades
-// --------------------------------------------------------------
+  bingoButtons.forEach(btn => {
+    const a = document.createElement('a');
+    a.className = 'bingo-selector';
+    a.dataset.url = btn.url;
+    const enabled = btn.enabled !== false; // por defecto true
+    a.dataset.enabled = enabled ? 'true' : 'false';
+
+    const bgImg = enabled ? '../IMG/icon_type_tab.png' : '../IMG/icon_type_tab_disabled.png';
+    a.innerHTML = `
+      <div class="bingo-icon">
+        <img class="b-background" src="${bgImg}">
+        <img class="b-icon" src="${btn.icon}">
+      </div>
+    `;
+    container.appendChild(a);
+  });
+}
+
+// ============================================================
+//  UTILIDADES
+// ============================================================
 function checkImage(src) {
   return new Promise(resolve => {
     const img = new Image();
@@ -34,80 +109,82 @@ function checkImage(src) {
   });
 }
 
-function getBaseGenesFromGrid() {
-  const genes = new Set();
-  document.querySelectorAll(".selector").forEach(sel => {
-    const code = sel.getAttribute("data");
-    if (code) genes.add(code);
-  });
-  return [...genes];
-}
-
-function getFullCodesForBingo(bingo) {
-  const baseGenes = getBaseGenesFromGrid();
-
-  // 🔥 MODO MONOGEN
-  if (isMonogen && window.bingoMonogen) {
-    return baseGenes.map(g => {
-      const data = window.bingoMonogen[g];
-      return data && data.id ? data.id.toUpperCase() : null;
-    }).filter(Boolean);
+function getGenesFromCode(code) {
+  const match = code.match(/^([A-Z]{1,2})_/);
+  if (!match) return { gen1: 'none', gen2: 'none' };
+  const genes = match[1].toLowerCase();
+  if (genes.length === 1) {
+    return { gen1: 'none', gen2: genes };
+  } else {
+    return { gen1: genes[0], gen2: genes[1] };
   }
-
-  // 🔹 modo normal
-  return baseGenes.map(g => `${g}_${bingo}`);
 }
 
-// --------------------------------------------------------------
-// Precarga de todos los mutantes (localisation)
-// --------------------------------------------------------------
+function formatRewardAmount(amount) {
+  if (!amount && amount !== 0) return ' ';
+  const num = Number(amount);
+  if (num === 1) return '­';
+  const numStr = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return 'x' + numStr;
+}
+
+// ============================================================
+//  OBTENER URL DE SKIN (para mutantes y recompensas)
+// ============================================================
+function getSkinImageUrl(skin) {
+  if (!skin) return '';
+  const lowerSkin = skin.toLowerCase();
+  // Estrellas especiales
+  if (['bronze', 'silver', 'gold', 'platinum'].includes(lowerSkin)) {
+    return `https://s-ak.kobojo.com/mutants/assets/thumbnails/star_${lowerSkin}.png`;
+  } else {
+    return `../IMG/icon_${lowerSkin}.png`;
+  }
+}
+
+// ============================================================
+//  PRECARGA DE LOCALISATION
+// ============================================================
 async function preloadAllMutants() {
   console.log("Precargando localisation...");
   const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/localisation_es.txt?nocache=${Date.now()}`);
   const text = await res.text();
   const lines = text.split("\n");
 
-  for (let base of ALL_BASE_GENES) {
-    for (let bingo of ALL_BINGOS) {
-      const fullCode = `${base}_${bingo}`;
-      mutantExists[fullCode] = false;
-    }
-  }
-
   lines.forEach(line => {
     const [key, value] = line.split(";");
     if (!key || !value) return;
     const cleanKey = key.trim().toLowerCase();
-    if (!/^specimen_[a-z]{1,2}_\d{2}$/i.test(cleanKey)) return;
+    if (!/^specimen_[a-z]{1,2}_\d{1,2}$/i.test(cleanKey)) return;
     const code = cleanKey.replace("specimen_", "").toUpperCase();
-
-// 🔥 si no existe, lo creamos (para monogen)
-if (!mutantExists.hasOwnProperty(code)) {
-  mutantExists[code] = false;
-}
-
-mutantExists[code] = true;
-mutantNames[code] = value.trim();
+    mutantExists[code] = true;
+    mutantNames[code] = value.trim();
   });
 
   console.log(`Precarga completada. ${Object.values(mutantExists).filter(v => v).length} mutantes encontrados.`);
 }
 
-// --------------------------------------------------------------
-// Carga de tipos (solo para los que existen)
-// --------------------------------------------------------------
+// ============================================================
+//  CARGA DE TIPOS
+// ============================================================
+let gameDefsLoaded = false;
+let gameDefsDoc = null;
+
 async function loadGameDefinitions(codes) {
   if (!codes.length) return;
-  const res = await fetch("https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml");
-  const text = await res.text();
-  const xml = new DOMParser().parseFromString(text, "text/xml");
+  if (!gameDefsLoaded) {
+    const res = await fetch("https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml");
+    const text = await res.text();
+    gameDefsDoc = new DOMParser().parseFromString(text, "text/xml");
+    gameDefsLoaded = true;
+  }
 
   codes.forEach(code => {
     if (!mutantExists[code]) {
       mutantTypes[code] = "normal";
       return;
     }
-    const entity = xml.querySelector(`EntityDescriptor[id="Specimen_${code}"]`);
+    const entity = gameDefsDoc.querySelector(`EntityDescriptor[id="Specimen_${code}"]`);
     if (!entity) {
       mutantTypes[code] = "normal";
       return;
@@ -117,23 +194,15 @@ async function loadGameDefinitions(codes) {
   });
 }
 
-// --------------------------------------------------------------
-// Carga de skins (por código completo o base) + manuales
-// --------------------------------------------------------------
+// ============================================================
+//  CARGA DE SKINS
+// ============================================================
 async function loadGachaTags() {
   console.log("Cargando skins desde gacha.xml...");
   const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/gacha.xml?nocache=${Date.now()}`);
   const text = await res.text();
   const xml = new DOMParser().parseFromString(text, "text/xml");
   const gachas = [...xml.querySelectorAll("Gacha")];
-
-  // Inicializar mapa para todos los códigos completos y bases
-  for (let base of ALL_BASE_GENES) {
-    mutantSkinsMap[base] = [];
-    for (let bingo of ALL_BINGOS) {
-      mutantSkinsMap[`${base}_${bingo}`] = [];
-    }
-  }
 
   gachas.forEach(gacha => {
     const tag = gacha.getAttribute("id");
@@ -145,17 +214,14 @@ async function loadGachaTags() {
       const raw = spec.getAttribute("specimen");
       if (!raw) return;
       let code = raw.replace("Specimen_", "").trim().toUpperCase();
-      if (!mutantSkinsMap[code]) {
-  mutantSkinsMap[code] = []; // 🔥 crear para monogen
-}
-
-if (!mutantSkinsMap[code].includes(tag)) {
-  mutantSkinsMap[code].push(tag);
-}
+      if (!mutantSkinsMap[code]) mutantSkinsMap[code] = [];
+      if (!mutantSkinsMap[code].includes(tag)) {
+        mutantSkinsMap[code].push(tag);
+      }
     });
   });
 
-  // Añadir skins especiales manualmente
+  // Skins especiales manuales
   const specialSkins = {
     "AF_10": "purgatory",
     "CF_01": "girl",
@@ -181,283 +247,410 @@ if (!mutantSkinsMap[code].includes(tag)) {
   console.log("Skins cargadas por código:", mutantSkinsMap);
 }
 
-// --------------------------------------------------------------
-// Renderizado de iconos según bingo actual
-// --------------------------------------------------------------
-async function renderMutantIcons() {
-  console.log(`Renderizando mutantes para bingo ${currentBingo}`);
-  const selectors = document.querySelectorAll(".selector");
-  for (let sel of selectors) {
-  const baseGenes = sel.getAttribute("data");
-  if (!baseGenes) continue;
-
-  const img = sel.querySelector(".m-icon"); // ✅ MOVIDO ARRIBA
-  let fullCode;
-
-  if (isMonogen && window.bingoMonogen) {
-    const data = window.bingoMonogen[baseGenes];
-    fullCode = data && data.id ? data.id.toUpperCase() : null;
-  } else {
-    fullCode = `${baseGenes}_${currentBingo}`;
+// ============================================================
+//  CONSTRUCCIÓN DE ICONO DE RECOMPENSA (definitiva)
+// ============================================================
+function buildRewardIcon(reward, iconClass) {
+  // iconClass: "rv-icon", "rh-icon", "r-icon"
+  if (!reward) {
+    return `<img class="${iconClass}" src="" style="display:none;">`;
   }
 
-  if (!fullCode) {
-    img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
-    sel.removeAttribute("data-fullcode");
-    continue;
+  const type = reward.type;
+  const id = (reward.id || '').trim();
+  const skin = reward.skin || null;
+
+  // Caso 1: Softcurrency
+  if (type === "softcurrency") {
+    const url = "https://s-ak.kobojo.com/mutants/assets/thumbnails/sc1000.png";
+    return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   }
 
-  if (mutantExists[fullCode]) {
-    const newSrc = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${fullCode.toLowerCase()}.png`;
-    const exists = await checkImage(newSrc);
-
-    if (exists) {
-      img.src = newSrc;
-      img.dataset.invalid = "false";
-      sel.setAttribute("data-fullcode", fullCode);
-    } else {
-      img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
-      img.dataset.invalid = "true";
-      sel.removeAttribute("data-fullcode");
-    }
-  } else {
-    img.src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
-    img.dataset.invalid = "true";
-    sel.removeAttribute("data-fullcode");
-  }
-}
-}
-
-// --------------------------------------------------------------
-// Resetear rewards a valores por defecto (vacío)
-// --------------------------------------------------------------
-function resetRewardsToDefault() {
-  // Verticales
-  document.querySelectorAll(".rewardv .rv-text").forEach(span => span.textContent = " ");
-  document.querySelectorAll(".rewardv .rv-icon").forEach(icon => icon.src = "");
-  // Horizontales
-  document.querySelectorAll(".rewardh .rh-text").forEach(span => span.textContent = " ");
-  document.querySelectorAll(".rewardh .rh-icon").forEach(icon => icon.src = "");
-  // Especial
-  const specialText = document.querySelector(".reward .r-text");
-  const specialIcon = document.querySelector(".reward .r-icon");
-  if (specialText) specialText.textContent = " ";
-  if (specialIcon) specialIcon.src = "";
-}
-
-// --------------------------------------------------------------
-// Recompensas (ahora con reseteo previo)
-// --------------------------------------------------------------
-function renderRewards() {
-  rewardsRenderId++; // 🔥 invalida renders anteriores
-  const currentRenderId = rewardsRenderId;
-
-  resetRewardsToDefault();
-
-  if (typeof window.bingoRewards === "undefined") {
-    console.warn("bingoRewards no definido");
-    return;
+  // Caso 2: Hardcurrency
+  if (type === "hardcurrency") {
+    const url = "https://s-ak.kobojo.com/mutants/assets/thumbnails/hardcurrency.png";
+    return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   }
 
-  const verticals = document.querySelectorAll(".rewardv");
-  verticals.forEach((reward, idx) => {
-    const colNum = idx + 1;
-    const rewardId = `${currentBingo}c${colNum}`;
-    const data = window.bingoRewards[rewardId];
-    const textSpan = reward.querySelector(".rv-text");
-    const iconImg = reward.querySelector(".rv-icon");
-    if (data) {
-      if (textSpan) textSpan.textContent = data.amount || " ";
-      if (iconImg) {
-        let iconSrc = "";
-        if (data.id && data.id.toLowerCase().startsWith("specimen_")) {
-          const specimenCode = data.id.replace(/^Specimen_/i, "").toLowerCase();
-          iconSrc = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${specimenCode}.png`;
-        } else if (data.id) {
-          iconSrc = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${data.id.toLowerCase()}.png`;
-        }
-        if (iconSrc) {
-          checkImage(iconSrc).then(exists => { if (exists) iconImg.src = iconSrc; });
-        }
-      }
-    }
-  });
-
-  const horizontals = document.querySelectorAll(".rewardh");
-  horizontals.forEach((reward, idx) => {
-    const rowNum = idx + 1;
-    const rewardId = `${currentBingo}l${rowNum}`;
-    const data = window.bingoRewards[rewardId];
-    const textSpan = reward.querySelector(".rh-text");
-    const iconImg = reward.querySelector(".rh-icon");
-    if (data) {
-      if (textSpan) textSpan.textContent = data.amount || " ";
-      if (iconImg) {
-        let iconSrc = "";
-        if (data.id && data.id.toLowerCase().startsWith("specimen_")) {
-          const specimenCode = data.id.replace(/^Specimen_/i, "").toLowerCase();
-          iconSrc = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${specimenCode}.png`;
-        } else if (data.id) {
-          iconSrc = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${data.id.toLowerCase()}.png`;
-        }
-        if (iconSrc) {
-          checkImage(iconSrc).then(exists => { if (exists) iconImg.src = iconSrc; });
-        }
-      }
-    }
-  });
-
-  const special = document.querySelector(".reward");
-  if (special) {
-    const rewardId = `${currentBingo}s1`;
-    const data = window.bingoRewards[rewardId];
-    const textSpan = special.querySelector(".r-text");
-    let iconImg = special.querySelector(".r-icon, .r-larva");
-    if (data) {
-  if (textSpan) textSpan.textContent = data.amount || " ";
-
-  if (data.id) {
-    let iconSrc = "";
-    let isSpecimen = data.id.toLowerCase().startsWith("specimen_");
+  // Caso 3: Entity
+  if (type === "entity") {
+    const isSpecimen = id.toLowerCase().startsWith("specimen_");
+    const actualClass = isSpecimen ? iconClass.replace('-icon', '-larva') : iconClass;
 
     if (isSpecimen) {
-      const specimenCode = data.id.replace(/^Specimen_/i, "").toLowerCase();
-      iconSrc = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${specimenCode}.png`;
+      const code = id.replace(/^Specimen_/i, "").toLowerCase();
+      const larvaUrl = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${code}.png`;
+
+      if (skin) {
+        // Skin: usamos la función auxiliar
+        const skinUrl = getSkinImageUrl(skin);
+        const skinClass = actualClass + '-skin';
+        return `
+          <img class="${actualClass}" src="${larvaUrl}" onerror="this.style.display='none'">
+          <img class="${skinClass}" src="${skinUrl}" onerror="this.style.display='none'">
+        `;
+      } else {
+        return `<img class="${actualClass}" src="${larvaUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">`;
+      }
     } else {
-      iconSrc = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${data.id.toLowerCase()}.png`;
-    }
-
-    if (iconSrc) {
-      checkImage(iconSrc).then(exists => {
-  if (!exists) return;
-
-  // 🚨 si este render ya no es el actual, cancelar
-  if (currentRenderId !== rewardsRenderId) return;
-
-  const container = special.querySelector(".reward-icon");
-
-  // limpiar SIEMPRE antes de insertar
-  container.querySelectorAll(".r-icon, .r-larva").forEach(el => el.remove());
-
-  const newImg = document.createElement("img");
-  newImg.src = iconSrc;
-  newImg.className = isSpecimen ? "r-larva" : "r-icon";
-
-  container.appendChild(newImg);
-});
+      // Otras entidades (items) usan thumbnail
+      const url = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
+      return `<img class="${actualClass}" src="${url}" onerror="this.style.display='none'">`;
     }
   }
-}
+
+  // Caso por defecto
+  if (id) {
+    const url = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
+    return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
+  } else {
+    return `<img class="${iconClass}" src="" style="display:none;">`;
   }
 }
 
-function resetRewardsToDefault() {
-  document.querySelectorAll(".rewardv .rv-text").forEach(span => span.textContent = " ");
-  document.querySelectorAll(".rewardv .rv-icon").forEach(icon => icon.src = "");
+// ============================================================
+//  CONSTRUCCIÓN DE LA CUADRÍCULA DESDE XML
+// ============================================================
+function buildGrid(data) {
+  const container = document.getElementById("bingo");
+  container.innerHTML = "";
 
-  document.querySelectorAll(".rewardh .rh-text").forEach(span => span.textContent = " ");
-  document.querySelectorAll(".rewardh .rh-icon").forEach(icon => icon.src = "");
+  const { colIcons, lineIcons, matrix, colRewards, lineRewards, specialReward } = data;
+  const numCols = matrix[0] ? matrix[0].length : 0;
+  const numRows = matrix.length;
 
-  const special = document.querySelector(".reward");
-  if (special) {
-    const text = special.querySelector(".r-text");
-    if (text) text.textContent = " ";
-
-    const container = special.querySelector(".reward-icon");
-
-    // 🔥 LIMPIEZA REAL
-    container.querySelectorAll(".r-icon, .r-larva").forEach(el => el.remove());
-
-    // 🔥 opcional: restaurar estructura base
-    const baseImg = document.createElement("img");
-    baseImg.className = "r-icon";
-    baseImg.src = "";
-    container.appendChild(baseImg);
-  }
-}
-
-// --------------------------------------------------------------
-// Cambio de bingo
-// --------------------------------------------------------------
-
-let isMonogen = false;
-
-async function selectBingo(bingoId, force = false) {
-  console.log("Cambiando a bingo:", bingoId);
-
-  if (!force && bingoId === currentBingo) {
-    console.log("IGNORADO porque es el mismo bingo");
+  if (numRows === 0 || numCols === 0) {
+    console.warn("Matriz vacía.");
     return;
   }
 
-  isMonogen = (bingoId === "monogen");
-  currentBingo = bingoId;
+  // Primera columna (encabezados de fila)
+  const firstCol = document.createElement("div");
+  firstCol.className = "no-column";
+  for (let r = 0; r < numRows; r++) {
+    const geneh = document.createElement("a");
+    geneh.className = "geneh";
+    const iconPath = lineIcons && lineIcons[r] ? lineIcons[r] : "icon-morpho/gene_all.png";
+    geneh.innerHTML = `
+      <div class="geneh-icon">
+        <img class="gh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene.png">
+        <img class="gh-icon" src="https://s-ak.kobojo.com/mutants/assets/${iconPath}">
+      </div>
+    `;
+    firstCol.appendChild(geneh);
+  }
+  container.appendChild(firstCol);
 
-  console.log("currentBingo ahora es:", currentBingo);
+  // Columnas de mutantes
+  for (let c = 0; c < numCols; c++) {
+    const colDiv = document.createElement("div");
+    colDiv.className = "column";
 
-  const buttons = document.querySelectorAll(".bingo-selector");
-  console.log("Botones encontrados:", buttons.length);
+    // Encabezado de columna
+    const gene = document.createElement("a");
+    gene.className = "gene";
+    const colIcon = colIcons && colIcons[c] ? colIcons[c] : "icon-morpho/gene_all.png";
+    gene.innerHTML = `
+      <div class="gene-icon">
+        <img class="g-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene_v.png">
+        <img class="g-gen" src="https://s-ak.kobojo.com/mutants/assets/${colIcon}">
+      </div>
+    `;
+    colDiv.appendChild(gene);
 
-  buttons.forEach(btn => {
-    const bg = btn.querySelector(".b-background");
-    const btnId = btn.getAttribute("data");
+    // Mutantes
+    for (let r = 0; r < numRows; r++) {
+      const cell = matrix[r] && matrix[r][c];
+      if (!cell) continue;
+      const { specimenId, skin, variantType, variantValue } = cell;
+      const code = specimenId.toUpperCase();
 
-    console.log("Comparando botón:", btnId, "con", currentBingo);
+      const selector = document.createElement("a");
+      selector.className = "selector";
+      selector.dataset.code = code;
 
-    if (btnId === currentBingo) {
-      console.log("-> ESTE debería activarse");
-      bg.src = "../IMG/icon_type_tab_select.png";
+      // Guardar datos de variante si existe
+      if (skin) {
+        selector.dataset.skin = skin;
+      }
+      if (variantType === 'base') {
+        selector.dataset.variantType = 'base';
+        selector.dataset.variantValue = variantValue;
+      }
+
+      // URL de thumbnail (con skin si existe, o sin ella)
+      let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+      if (skin) {
+        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
+      } else if (variantType === 'base') {
+        // Las estrellas no cambian la miniatura, usamos la base
+        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+      }
+
+      // Genes (con lógica para monogen)
+      const { gen1, gen2 } = getGenesFromCode(code);
+
+      // Skin overlay para la miniatura (si no es estrella)
+      let skinImgHTML = '';
+      if (skin) {
+        const skinUrl = getSkinImageUrl(skin);
+        skinImgHTML = `<img class="m-skin" src="${skinUrl}" onerror="this.style.display='none'">`;
+      }
+
+      selector.innerHTML = `
+        <div class="mutant-icon">
+          <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
+          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
+          ${skinImgHTML}
+          <img class="m-gen1" src="../IMG/gene_${gen1}.png">
+          <img class="m-gen2" src="../IMG/gene_${gen2}.png">
+        </div>
+      `;
+
+      // Deshabilitar si no existe el mutante
+      if (!mutantExists[code]) {
+        selector.classList.add('disabled');
+        selector.style.cursor = 'default';
+        selector.title = 'Mutante no disponible';
+      } else {
+        selector.addEventListener("click", (e) => {
+          e.preventDefault();
+          const code = selector.dataset.code;
+          const skin = selector.dataset.skin || null;
+          const variantType = selector.dataset.variantType || null;
+          const variantValue = selector.dataset.variantValue ? parseInt(selector.dataset.variantValue) : null;
+          if (code) loadProfile(code, skin, variantType, variantValue);
+        });
+      }
+
+      colDiv.appendChild(selector);
+    }
+
+    // Recompensa vertical
+    const rewardV = colRewards && colRewards[c] ? colRewards[c] : null;
+    const rewardv = document.createElement("a");
+    rewardv.className = "rewardv";
+    rewardv.dataset.col = c;
+    const vAmount = rewardV ? formatRewardAmount(rewardV.amount) : ' ';
+    const vIconHTML = rewardV ? buildRewardIcon(rewardV, "rv-icon") : `<img class="rv-icon" src="" style="display:none;">`;
+    rewardv.innerHTML = `
+      <div class="rewardv-icon">
+        <img class="rv-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_v.png">
+        ${vIconHTML}
+        <span class="text rv-text">${vAmount}</span>
+      </div>
+    `;
+    colDiv.appendChild(rewardv);
+
+    container.appendChild(colDiv);
+  }
+
+  // Última columna (recompensas horizontales y especial)
+  const lastCol = document.createElement("div");
+  lastCol.className = "no-column";
+
+  for (let r = 0; r < numRows; r++) {
+    const reward = lineRewards && lineRewards[r] ? lineRewards[r] : null;
+    const rewardh = document.createElement("a");
+    rewardh.className = "rewardh";
+    rewardh.dataset.row = r;
+    const hAmount = reward ? formatRewardAmount(reward.amount) : ' ';
+    const hIconHTML = reward ? buildRewardIcon(reward, "rh-icon") : `<img class="rh-icon" src="" style="display:none;">`;
+    rewardh.innerHTML = `
+      <div class="rewardh-icon">
+        <img class="rh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward.png">
+        ${hIconHTML}
+        <span class="text rh-text">${hAmount}</span>
+      </div>
+    `;
+    lastCol.appendChild(rewardh);
+  }
+
+  // Recompensa especial
+  const special = document.createElement("a");
+  special.className = "reward";
+  const spAmount = specialReward ? formatRewardAmount(specialReward.amount) : ' ';
+  const spIconHTML = specialReward ? buildRewardIcon(specialReward, "r-icon") : `<img class="r-icon" src="" style="display:none;">`;
+  special.innerHTML = `
+    <div class="reward-icon">
+      <img class="r-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_final.png">
+      ${spIconHTML}
+      <span class="text r-text">${spAmount}</span>
+    </div>
+  `;
+  lastCol.appendChild(special);
+
+  container.appendChild(lastCol);
+}
+
+// ============================================================
+//  SELECCIÓN DE BINGO
+// ============================================================
+async function selectBingo(bingoUrl, force = false) {
+  if (!force && bingoUrl === currentBingoUrl) return;
+  currentBingoUrl = bingoUrl;
+
+  console.log("Cargando bingo desde:", bingoUrl);
+  const response = await fetch(bingoUrl);
+  const xmlText = await response.text();
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+  // Headers
+  const colNodes = [...xmlDoc.querySelectorAll("headers cols col")];
+  const lineNodes = [...xmlDoc.querySelectorAll("headers lines line")];
+  const colIcons = colNodes.map(col => col.getAttribute("icon"));
+  const lineIcons = lineNodes.map(line => line.getAttribute("icon"));
+
+  // Matriz
+  const lineElements = [...xmlDoc.querySelectorAll(":root > line")];
+  const matrix = lineElements.map(line => {
+    const cols = [...line.querySelectorAll("col")];
+    return cols.map(col => {
+      const specimenId = col.getAttribute("specimenId").replace(/^Specimen_/i, "").toUpperCase();
+      const skinValue = col.getAttribute("skin") || "_any";
+      let skin = null;
+      let variantType = null;
+      let variantValue = null;
+
+      if (skinValue !== "_any") {
+        const lowerSkin = skinValue.toLowerCase();
+        if (['bronze', 'silver', 'gold', 'platinum'].includes(lowerSkin)) {
+          variantType = 'base';
+          variantValue = ['bronze', 'silver', 'gold', 'platinum'].indexOf(lowerSkin) + 1; // 1-4
+        } else {
+          skin = skinValue;
+        }
+      }
+      return { specimenId, skin, variantType, variantValue };
+    });
+  });
+
+  // Recompensas (con tags)
+  const rewardsSection = xmlDoc.querySelector("rewards");
+  let colRewards = [];
+  let lineRewards = [];
+  let specialReward = null;
+  if (rewardsSection) {
+    colRewards = [...rewardsSection.querySelectorAll("col")].map(col => {
+      const reward = {
+        rewardId: col.getAttribute("rewardId"),
+        amount: col.getAttribute("amount"),
+        type: col.getAttribute("type"),
+        id: col.getAttribute("id")
+      };
+      const tags = [...col.querySelectorAll("Tag")];
+      tags.forEach(tag => {
+        const key = tag.getAttribute("key");
+        const value = tag.getAttribute("value");
+        if (key && value) reward[key] = value;
+      });
+      return reward;
+    });
+    lineRewards = [...rewardsSection.querySelectorAll("line")].map(line => {
+      const reward = {
+        rewardId: line.getAttribute("rewardId"),
+        amount: line.getAttribute("amount"),
+        type: line.getAttribute("type"),
+        id: line.getAttribute("id")
+      };
+      const tags = [...line.querySelectorAll("Tag")];
+      tags.forEach(tag => {
+        const key = tag.getAttribute("key");
+        const value = tag.getAttribute("value");
+        if (key && value) reward[key] = value;
+      });
+      return reward;
+    });
+    const specialNode = rewardsSection.querySelector("special");
+    if (specialNode) {
+      specialReward = {
+        rewardId: specialNode.getAttribute("rewardId"),
+        amount: specialNode.getAttribute("amount"),
+        type: specialNode.getAttribute("type"),
+        id: specialNode.getAttribute("id")
+      };
+      const tags = [...specialNode.querySelectorAll("Tag")];
+      tags.forEach(tag => {
+        const key = tag.getAttribute("key");
+        const value = tag.getAttribute("value");
+        if (key && value) specialReward[key] = value;
+      });
+    }
+  }
+
+  currentBingoData = { colIcons, lineIcons, matrix, colRewards, lineRewards, specialReward };
+
+  // Cargar tipos de los mutantes que aparecen
+  const codes = matrix.flat().map(cell => cell.specimenId);
+  await loadGameDefinitions(codes);
+
+  buildGrid(currentBingoData);
+
+  // Actualizar fondos de los botones
+  document.querySelectorAll('#bingo-buttons .bingo-selector').forEach(btn => {
+    const bg = btn.querySelector('.b-background');
+    const url = btn.dataset.url;
+    const enabled = btn.dataset.enabled === 'true';
+
+    if (url === bingoUrl) {
+      bg.src = '../IMG/icon_type_tab_select.png';
     } else {
-      bg.src = "../IMG/icon_type_tab.png";
+      bg.src = enabled ? '../IMG/icon_type_tab.png' : '../IMG/icon_type_tab_disabled.png';
     }
   });
 
-  const fullCodes = getFullCodesForBingo(currentBingo);
-  console.log("Full codes:", fullCodes);
+  // Actualizar título
+  const btnData = bingoButtons.find(b => b.url === bingoUrl);
+  const titleSpan = document.querySelector('.text-title');
+  if (titleSpan && btnData) {
+    titleSpan.textContent = btnData.name;
+  } else if (titleSpan) {
+    titleSpan.textContent = 'Bingo';
+  }
 
-  const existingCodes = fullCodes.filter(code => mutantExists[code]);
-  console.log("Existing codes:", existingCodes);
-
-  await loadGameDefinitions(existingCodes);
-  console.log("Tipos cargados");
-
-  await renderMutantIcons();
-  console.log("Iconos renderizados");
-
-  renderRewards();
-  console.log("Rewards renderizados");
+  // Ya no se llama a initProfileEmpty()
+  console.log("Bingo cargado y renderizado.");
 }
 
-// --------------------------------------------------------------
-// Perfil y variantes (con skins filtradas por bingo)
-// --------------------------------------------------------------
-async function loadProfile(fullCode) {
-  if (!mutantExists[fullCode]) return;
-  currentMutant = fullCode;
+// ============================================================
+//  PERFIL DEL MUTANTE (con PNG/PNG HD)
+// ============================================================
+async function loadProfile(code, skin = null, variantType = null, variantValue = null) {
+  if (!mutantExists[code]) {
+    console.warn("Mutante no existe:", code);
+    return;
+  }
+  currentMutant = code;
 
-  const match = fullCode.match(/^([A-Z]{1,2})_(\d{2})$/);
-if (!match) return;
+  const { gen1, gen2 } = getGenesFromCode(code);
+  const genImgs = document.querySelectorAll(".p-gen");
+  genImgs[0].src = `../IMG/gene_${gen1}.png`;
+  genImgs[1].src = `../IMG/gene_${gen2}.png`;
 
-const baseGenes = match[1];
-
-// 🧠 manejar monogen
-const gen1 = baseGenes[0]?.toLowerCase();
-const gen2 = baseGenes[1]?.toLowerCase() || baseGenes[0]?.toLowerCase();
-
-  document.querySelectorAll(".p-gen")[0].src = `../IMG/gene_${gen1}.png`;
-  document.querySelectorAll(".p-gen")[1].src = `../IMG/gene_${gen2}.png`;
+  // Ajustar visibilidad y centrado si solo hay un gen
+  const genContainer = document.querySelector(".profil-gen");
+  if (gen1 === 'none') {
+    genImgs[0].style.display = 'none';
+    genImgs[1].style.display = 'block';
+    genContainer.style.justifyContent = 'center';
+  } else {
+    genImgs[0].style.display = 'block';
+    genImgs[1].style.display = 'block';
+    genContainer.style.justifyContent = 'flex-start'; // o el valor por defecto
+  }
 
   document.querySelector(".mutant").style.display = "block";
   document.querySelector(".profil-text").style.display = "block";
   document.querySelector(".profil-gen").style.display = "flex";
   document.querySelector(".versions").style.display = "flex";
 
-  const name = mutantNames[fullCode] || fullCode;
+  const name = mutantNames[code] || code;
   document.querySelector(".profil-text").textContent = name;
 
-  document.querySelector(".larva").src = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${fullCode.toLowerCase()}.png`;
+  document.querySelector(".larva").src = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${code.toLowerCase()}.png`;
 
-  const type = mutantTypes[fullCode] || "normal";
+  const type = mutantTypes[code] || "normal";
   const typeImg = document.querySelector(".type");
   if (type === "normal") {
     typeImg.style.display = "none";
@@ -465,21 +658,32 @@ const gen2 = baseGenes[1]?.toLowerCase() || baseGenes[0]?.toLowerCase();
     typeImg.style.display = "block";
     typeImg.src = `https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/icon_${type}.png`;
   }
-
   document.querySelector(".bg").src = `https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/profil_bg_${type}.png`;
 
-  await loadMutantImage(fullCode);
-  await generateVariants(fullCode, baseGenes, type);
+  // Determinar la variante a cargar
+  let variant = null;
+  if (variantType === 'base') {
+    variant = { type: 'base', value: variantValue };
+  } else if (skin) {
+    variant = { type: 'skin', value: skin };
+  }
+  // Si no hay ni skin ni variante base, variant queda null (carga base)
+
+  await loadMutantImage(code, variant);
+  await generateVariants(code, type, variant); // pasamos la variante actual
 }
 
-async function loadMutantImage(fullCode, variant = null) {
+async function loadMutantImage(code, variant = null) {
   let paths = [];
   if (!variant) {
-    paths = [`../../PNG/${fullCode}.png`, `../../PNG HD/${fullCode}.png`];
+    // Base: sin variante (PNG o PNG HD)
+    paths = [`../../PNG/${code}.png`, `../../PNG HD/${code}.png`];
   } else if (variant.type === "base") {
-    paths = [`../../PNG/V${variant.value}/${fullCode}.png`, `../../PNG HD/V${variant.value}/${fullCode}.png`];
+    // Estrella: V1, V2, V3, V4
+    paths = [`../../PNG/V${variant.value}/${code}.png`, `../../PNG HD/V${variant.value}/${code}.png`];
   } else if (variant.type === "skin") {
-    paths = [`../../PNG/VR/${fullCode}_${variant.value}.png`, `../../PNG HD/VR/${fullCode}_${variant.value}.png`];
+    // Skin: VR + nombre de la skin
+    paths = [`../../PNG/VR/${code}_${variant.value}.png`, `../../PNG HD/VR/${code}_${variant.value}.png`];
   }
 
   for (let p of paths) {
@@ -488,32 +692,38 @@ async function loadMutantImage(fullCode, variant = null) {
       return;
     }
   }
+  // Si no se encuentra, usar thumbnail por defecto
   document.querySelector(".mutant").src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
 }
 
-async function generateVariants(fullCode, baseGenes, type) {
+async function generateVariants(code, type, currentVariant = null) {
   const container = document.querySelector(".versions");
   container.innerHTML = "";
 
-  const variantNames = ["bronze","silver","gold","platinum"];
+  const variantNames = ["bronze", "silver", "gold", "platinum"];
   const allVariants = [];
 
   // Estrellas según tipo
   if (type === "zodiac") {
     allVariants.push({ type: "base", value: 2, icon: `../IMG/star_${variantNames[1]}.png` });
-  } else if (["normal","pvp","legend","heroic","recipe"].includes(type)) {
-    for (let v of [1,2,3,4]) {
+  } else if (["normal", "pvp", "legend", "heroic", "recipe"].includes(type)) {
+    for (let v of [1, 2, 3, 4]) {
       allVariants.push({ type: "base", value: v, icon: `../IMG/star_${variantNames[v-1]}.png` });
     }
   }
 
-  // Skins: primero buscar por código completo, luego por base (sin número)
-  let skins = mutantSkinsMap[fullCode] || [];
-if (mutantSkinsMap[baseGenes]) {
-  skins = [...skins, ...mutantSkinsMap[baseGenes]];
-}
-  // Eliminar duplicados
+  // Skins de gacha + especiales
+  const base = code.replace(/_\d+$/, "");
+  let skins = mutantSkinsMap[code] || [];
+  if (mutantSkinsMap[base]) {
+    skins = [...skins, ...mutantSkinsMap[base]];
+  }
   skins = [...new Set(skins)];
+
+  // Si la variante actual es una skin y no está en la lista, añadirla
+  if (currentVariant && currentVariant.type === 'skin' && !skins.includes(currentVariant.value)) {
+    skins.push(currentVariant.value);
+  }
 
   skins.forEach(tag => {
     allVariants.push({ type: "skin", value: tag, icon: `../IMG/icon_${tag}.png` });
@@ -525,7 +735,8 @@ if (mutantSkinsMap[baseGenes]) {
   }
   container.style.display = "flex";
 
-  allVariants.forEach(v => {
+  let selectedIndex = -1;
+  allVariants.forEach((v, idx) => {
     const el = document.createElement("a");
     el.className = "variant";
     el.innerHTML = `
@@ -534,39 +745,48 @@ if (mutantSkinsMap[baseGenes]) {
         <img class="skin-icon" src="${v.icon}">
       </div>
     `;
-    el.addEventListener("click", async () => { await toggleVariant(v, el); });
+    el.addEventListener("click", async () => {
+      await toggleVariant(v, el, code);
+    });
     container.appendChild(el);
+
+    // Marcar si coincide con la variante actual
+    if (currentVariant) {
+      if (v.type === currentVariant.type && v.value === currentVariant.value) {
+        selectedIndex = idx;
+      }
+    }
   });
 
-  if (selectedVariant) {
-    const match = allVariants.find(v => JSON.stringify(v) === JSON.stringify(selectedVariant));
-    if (match) {
-      const index = allVariants.indexOf(match);
-      const el = container.children[index];
-      toggleVariant(match, el, true);
-    } else {
-      selectedVariant = null;
-    }
+  // Si no se encontró coincidencia, NO seleccionamos nada (dejamos base)
+  if (selectedIndex !== -1) {
+    const el = container.children[selectedIndex];
+    const variant = allVariants[selectedIndex];
+    el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
+    selectedVariant = variant;
+    // Ya la imagen está cargada, no es necesario recargar
+  } else {
+    // Si no hay selección, aseguramos que selectedVariant sea null
+    selectedVariant = null;
+    // La imagen ya se cargó con loadMutantImage con variant=null
   }
 }
 
-async function toggleVariant(variant, el, isRestoring = false) {
-  if (!isRestoring && selectedVariant && JSON.stringify(selectedVariant) === JSON.stringify(variant)) {
+async function toggleVariant(variant, el, code) {
+  if (selectedVariant && JSON.stringify(selectedVariant) === JSON.stringify(variant)) {
+    // Deseleccionar
     selectedVariant = null;
-    resetVariants();
-    await loadMutantImage(currentMutant);
+    el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
+    await loadMutantImage(code, null);
     return;
   }
+  // Seleccionar
   selectedVariant = variant;
-  resetVariants();
-  el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
-  await loadMutantImage(currentMutant, variant);
-}
-
-function resetVariants() {
   document.querySelectorAll(".skin-background").forEach(bg => {
     bg.src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
   });
+  el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
+  await loadMutantImage(code, variant);
 }
 
 function initProfileEmpty() {
@@ -575,52 +795,42 @@ function initProfileEmpty() {
   document.querySelector(".versions").style.display = "none";
   document.querySelector(".type").style.display = "none";
   document.querySelector(".larva").src = "https://s-ak.kobojo.com/mutants/assets/larvas/larva_mystery.png";
+  // También restaurar los genes por si acaso
+  const genImgs = document.querySelectorAll(".p-gen");
+  genImgs.forEach(img => img.style.display = 'block');
+  document.querySelector(".profil-gen").style.justifyContent = 'flex-start';
 }
 
-// --------------------------------------------------------------
-// Inicialización de eventos
-// --------------------------------------------------------------
-function initClicks() {
-  document.querySelectorAll(".selector").forEach(el => {
-    el.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const fullCode = el.getAttribute("data-fullcode");
-      if (fullCode) await loadProfile(fullCode);
-    });
-  });
-}
-
-function initBingoButtons() {
-  const bingoBtns = document.querySelectorAll(".bingo-selector");
-  bingoBtns.forEach(btn => {
-    btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const bingoId = btn.getAttribute("data");
-      if (bingoId) await selectBingo(bingoId);
-    });
-  });
-}
-
-// --------------------------------------------------------------
-// Arranque principal
-// --------------------------------------------------------------
+// ============================================================
+//  INICIALIZACIÓN
+// ============================================================
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("Inicializando...");
   initProfileEmpty();
 
   await preloadAllMutants();
-  console.log("Mutants precargados");
-
   await loadGachaTags();
-  console.log("Skins cargadas");
 
-  initBingoButtons();
-  console.log("Botones bingo inicializados");
+  // Renderizar botones de bingo
+  renderBingoButtons();
 
-  console.log("ANTES de selectBingo");
-  await selectBingo("01", true);
-  console.log("DESPUÉS de selectBingo");
+  // Asignar eventos
+  document.querySelectorAll('#bingo-buttons .bingo-selector').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = btn.dataset.url;
+      if (url) selectBingo(url);
+    });
+  });
 
-  initClicks();
-  console.log("Inicialización completa");
+  // Cargar primer bingo por defecto
+  const firstBtn = document.querySelector('#bingo-buttons .bingo-selector');
+  if (firstBtn) {
+    const defaultUrl = firstBtn.dataset.url;
+    if (defaultUrl) {
+      await selectBingo(defaultUrl, true);
+    }
+  }
+
+  console.log("Inicialización completa.");
 });

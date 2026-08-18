@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<season>
+	<headers>
+		<cols>
+			<col icon="icon-morpho/gene_a.png" />
+			<col icon="icon-morpho/gene_b.png" />
+			<col icon="icon-morpho/gene_c.png" />
+			<col icon="icon-morpho/gene_d.png" />
+			<col icon="icon-morpho/gene_e.png" />
+			<col icon="icon-morpho/gene_f.png" />
+		</cols>
+	
+	</headers>
+	
+	<line indexY="0">
+		<col indexX="0" specimenId="Specimen_A_99" skin="_any" />
+		<col indexX="1" specimenId="Specimen_B_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_C_99" skin="_any" />
+		<col indexX="3" specimenId="Specimen_D_99" skin="_any" />
+		<col indexX="4" specimenId="Specimen_E_99" skin="_any" />
+		<col indexX="5" specimenId="Specimen_F_99" skin="_any" />
+	</line>
+	
+	<line indexY="1">
+		<col indexX="0" specimenId="Specimen_A_99" skin="_any" />
+		<col indexX="1" specimenId="Specimen_B_99" skin="_any" />
+		<col indexX="2" specimenId="Specimen_C_99" skin="_any" />
+		<col indexX="3" specimenId="Specimen_D_99" skin="_any" />
+		<col indexX="4" specimenId="Specimen_E_99" skin="_any" />
+		<col indexX="5" specimenId="Specimen_F_99" skin="_any" />
+	</line>
+	
+	<line indexY="2">
+		<col indexX="0" specimenId="Specimen_A_99" skin="_any" />
+		<col indexX="1" specimenId="Specimen_B_99" skin="_any" />
+		<col indexX="2" specimenId="Specimen_C_99" skin="_any" />
+		<col indexX="3" specimenId="Specimen_D_99" skin="_any" />
+		<col indexX="4" specimenId="Specimen_E_99" skin="_any" />
+		<col indexX="5" specimenId="Specimen_F_99" skin="_any" />
+	</line>
+	
+	<line indexY="3">
+		<col indexX="0" specimenId="Specimen_A_99" skin="_any" />
+		<col indexX="1" specimenId="Specimen_B_99" skin="_any" />
+		<col indexX="2" specimenId="Specimen_C_99" skin="_any" />
+		<col indexX="3" specimenId="Specimen_D_99" skin="_any" />
+		<col indexX="4" specimenId="Specimen_E_99" skin="_any" />
+		<col indexX="5" specimenId="Specimen_F_99" skin="_any" />
+	</line>
+	
+	<line indexY="4">
+		<col indexX="0" specimenId="Specimen_A_99" skin="_any" />
+		<col indexX="1" specimenId="Specimen_B_99" skin="_any" />
+		<col indexX="2" specimenId="Specimen_C_99" skin="_any" />
+		<col indexX="3" specimenId="Specimen_D_99" skin="_any" />
+		<col indexX="4" specimenId="Specimen_E_99" skin="_any" />
+		<col indexX="5" specimenId="Specimen_F_99" skin="_any" />
+	</line>
+	
+	<line indexY="5">
+		<col indexX="0" specimenId="Specimen_A_99" skin="_any" />
+		<col indexX="1" specimenId="Specimen_B_99" skin="_any" />
+		<col indexX="2" specimenId="Specimen_C_99" skin="_any" />
+		<col indexX="3" specimenId="Specimen_D_99" skin="_any" />
+		<col indexX="4" specimenId="Specimen_E_99" skin="_any" />
+		<col indexX="5" specimenId="Specimen_F_99" skin="_any" />
+	</line>
+	
+</season>

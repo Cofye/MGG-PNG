@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<season>
+	<headers>
+		<cols>
+			<col icon="icon-morpho/gene_a.png" />
+			<col icon="icon-morpho/gene_b.png" />
+			<col icon="icon-morpho/gene_c.png" />
+			<col icon="icon-morpho/gene_d.png" />
+			<col icon="icon-morpho/gene_e.png" />
+			<col icon="icon-morpho/gene_f.png" />
+		</cols>
+		
+		<lines>
+			<line icon="icon-morpho/gene_a.png"/>
+			<line icon="icon-morpho/gene_b.png"/>
+			<line icon="icon-morpho/gene_c.png"/>
+			<line icon="icon-morpho/gene_d.png"/>
+			<line icon="icon-morpho/gene_e.png"/>
+			<line icon="icon-morpho/gene_f.png"/>			
+		</lines>
+	</headers>
+	
+	<line indexY="0">
+		<col indexX="0" specimenId="Specimen_AA_14" skin="_any" />
+		<col indexX="1" specimenId="Specimen_AB_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_AC_14" skin="_any" />
+		<col indexX="3" specimenId="Specimen_AD_14" skin="_any" />
+		<col indexX="4" specimenId="Specimen_AE_14" skin="_any" />
+		<col indexX="5" specimenId="Specimen_AF_14" skin="_any" />
+	</line>
+	
+	<line indexY="1">
+		<col indexX="0" specimenId="Specimen_BA_14" skin="_any" />
+		<col indexX="1" specimenId="Specimen_BB_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_BC_14" skin="_any" />
+		<col indexX="3" specimenId="Specimen_BD_14" skin="_any" />
+		<col indexX="4" specimenId="Specimen_BE_14" skin="_any" />
+		<col indexX="5" specimenId="Specimen_BF_14" skin="_any" />
+	</line>
+	
+	<line indexY="2">
+		<col indexX="0" specimenId="Specimen_CA_14" skin="_any" />
+		<col indexX="1" specimenId="Specimen_CB_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_CC_14" skin="_any" />
+		<col indexX="3" specimenId="Specimen_CD_14" skin="_any" />
+		<col indexX="4" specimenId="Specimen_CE_14" skin="_any" />
+		<col indexX="5" specimenId="Specimen_CF_14" skin="_any" />
+	</line>
+	
+	<line indexY="3">
+		<col indexX="0" specimenId="Specimen_DA_14" skin="_any" />
+		<col indexX="1" specimenId="Specimen_DB_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_DC_14" skin="_any" />
+		<col indexX="3" specimenId="Specimen_DD_14" skin="_any" />
+		<col indexX="4" specimenId="Specimen_DE_14" skin="_any" />
+		<col indexX="5" specimenId="Specimen_DF_14" skin="_any" />
+	</line>
+	
+	<line indexY="4">
+		<col indexX="0" specimenId="Specimen_EA_14" skin="_any" />
+		<col indexX="1" specimenId="Specimen_EB_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_EC_14" skin="_any" />
+		<col indexX="3" specimenId="Specimen_ED_14" skin="_any" />
+		<col indexX="4" specimenId="Specimen_EE_14" skin="_any" />
+		<col indexX="5" specimenId="Specimen_EF_14" skin="_any" />
+	</line>
+	
+	<line indexY="5">
+		<col indexX="0" specimenId="Specimen_FA_14" skin="_any" />
+		<col indexX="1" specimenId="Specimen_FB_14" skin="_any" />
+		<col indexX="2" specimenId="Specimen_FC_14" skin="_any" />
+		<col indexX="3" specimenId="Specimen_FD_14" skin="_any" />
+		<col indexX="4" specimenId="Specimen_FE_14" skin="_any" />
+		<col indexX="5" specimenId="Specimen_FF_14" skin="_any" />
+	</line>
+	
+</season>
