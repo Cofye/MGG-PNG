@@ -52,7 +52,7 @@ const bingoButtons = [
   { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2020.xml", icon: "../IMG/morphology_event_2019.png", name: "2020 Eventos" },
   { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2020.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
   { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2021.xml", icon: "../IMG/morphology_event_2019.png", name: "2021 Eventos" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary21.xml", icon: "../IMG/morphology_event_2019.png", name: "8° Aniversario" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary21.xml", icon: "../IMG/morphology_event_2019.png", name: "8° Aniversario" },
   { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2021.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
   { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2022.xml", icon: "../IMG/morphology_event_2019.png", name: "2022 Eventos" },
   { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2022.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
@@ -134,11 +134,10 @@ function formatRewardAmount(amount) {
 function getSkinImageUrl(skin) {
   if (!skin) return '';
   const lowerSkin = skin.toLowerCase();
-  // Estrellas especiales
   if (['bronze', 'silver', 'gold', 'platinum'].includes(lowerSkin)) {
     return `https://s-ak.kobojo.com/mutants/assets/thumbnails/star_${lowerSkin}.png`;
   } else {
-    return `../IMG/icon_${lowerSkin}.png`;
+    return `https://s-ak.kobojo.com/mutants/assets/gachacontent/icon_${lowerSkin}.png`;
   }
 }
 
@@ -365,63 +364,66 @@ function buildGrid(data) {
       const { specimenId, skin, variantType, variantValue } = cell;
       const code = specimenId.toUpperCase();
 
-      const selector = document.createElement("a");
-      selector.className = "selector";
-      selector.dataset.code = code;
+  // Dentro del bucle de creación de selectores
+  const selector = document.createElement("a");
+  selector.className = "selector";
+  selector.dataset.code = code;
+  if (skin) selector.dataset.skin = skin;
+  if (variantType === 'base') {
+    selector.dataset.variantType = 'base';
+    selector.dataset.variantValue = variantValue;
+  }
 
-      // Guardar datos de variante si existe
-      if (skin) {
-        selector.dataset.skin = skin;
-      }
-      if (variantType === 'base') {
-        selector.dataset.variantType = 'base';
-        selector.dataset.variantValue = variantValue;
-      }
+  // URL de miniatura (base siempre, sin sufijo de estrella)
+let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+if (skin) {
+  thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
+} else if (variantType === 'base') {
+  const starNames = ['bronze', 'silver', 'gold', 'platinum'];
+  const starName = starNames[variantValue - 1];
+  if (starName) {
+    thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+  }
+}
 
-      // URL de thumbnail (con skin si existe, o sin ella)
-      let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
-      if (skin) {
-        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
-      } else if (variantType === 'base') {
-        // Las estrellas no cambian la miniatura, usamos la base
-        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
-      }
+  // Overlay de skin o estrella
+  let skinImgHTML = '';
+  if (skin) {
+    const skinUrl = getSkinImageUrl(skin);
+    skinImgHTML = `<img class="m-skin" src="${skinUrl}" onerror="this.style.display='none'">`;
+  } else if (variantType === 'base') {
+    const starNames = ['bronze', 'silver', 'gold', 'platinum'];
+    const starName = starNames[variantValue - 1];
+    if (starName) {
+      const starUrl = getSkinImageUrl(starName);
+      skinImgHTML = `<img class="m-skin" src="${starUrl}" onerror="this.style.display='none'">`;
+    }
+  }
 
-      // Genes (con lógica para monogen)
-      const { gen1, gen2 } = getGenesFromCode(code);
+  // Genes
+  const { gen1, gen2 } = getGenesFromCode(code);
 
-      // Skin overlay para la miniatura (si no es estrella)
-      let skinImgHTML = '';
-      if (skin) {
-        const skinUrl = getSkinImageUrl(skin);
-        skinImgHTML = `<img class="m-skin" src="${skinUrl}" onerror="this.style.display='none'">`;
-      }
+  selector.innerHTML = `
+    <div class="mutant-icon">
+      <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
+      <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
+      ${skinImgHTML}
+      <img class="m-gen1" src="../IMG/gene_${gen1}.png">
+      <img class="m-gen2" src="../IMG/gene_${gen2}.png">
+    </div>
+  `;
 
-      selector.innerHTML = `
-        <div class="mutant-icon">
-          <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
-          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
-          ${skinImgHTML}
-          <img class="m-gen1" src="../IMG/gene_${gen1}.png">
-          <img class="m-gen2" src="../IMG/gene_${gen2}.png">
-        </div>
-      `;
-
-      // Deshabilitar si no existe el mutante
-      if (!mutantExists[code]) {
-        selector.classList.add('disabled');
-        selector.style.cursor = 'default';
-        selector.title = 'Mutante no disponible';
-      } else {
-        selector.addEventListener("click", (e) => {
-          e.preventDefault();
-          const code = selector.dataset.code;
-          const skin = selector.dataset.skin || null;
-          const variantType = selector.dataset.variantType || null;
-          const variantValue = selector.dataset.variantValue ? parseInt(selector.dataset.variantValue) : null;
-          if (code) loadProfile(code, skin, variantType, variantValue);
-        });
-      }
+  // Deshabilitar si no existe
+  if (!mutantExists[code]) {
+    selector.classList.add('disabled');
+    selector.style.cursor = 'default';
+    selector.title = 'Mutante no disponible';
+  } else {
+    selector.addEventListener("click", (e) => {
+      e.preventDefault();
+      selectMutant(selector);
+    });
+  }
 
       colDiv.appendChild(selector);
     }
@@ -481,6 +483,17 @@ function buildGrid(data) {
   lastCol.appendChild(special);
 
   container.appendChild(lastCol);
+}
+
+function selectMutant(selector) {
+  removeGlowFromAll();
+  addGlowToSelector(selector);
+
+  const code = selector.dataset.code;
+  const skin = selector.dataset.skin || null;
+  const variantType = selector.dataset.variantType || null;
+  const variantValue = selector.dataset.variantValue ? parseInt(selector.dataset.variantValue) : null;
+  if (code) loadProfile(code, skin, variantType, variantValue);
 }
 
 // ============================================================
@@ -586,6 +599,17 @@ async function selectBingo(bingoUrl, force = false) {
   await loadGameDefinitions(codes);
 
   buildGrid(currentBingoData);
+
+  // Restaurar glow si el mutante actual existe en la nueva parrilla
+if (currentMutant) {
+  const selector = document.querySelector(`#bingo .selector[data-code="${currentMutant}"]`);
+  if (selector) {
+    removeGlowFromAll();
+    addGlowToSelector(selector);
+  } else {
+    removeGlowFromAll();
+  }
+}
 
   // Actualizar fondos de los botones
   document.querySelectorAll('#bingo-buttons .bingo-selector').forEach(btn => {
@@ -799,6 +823,29 @@ function initProfileEmpty() {
   const genImgs = document.querySelectorAll(".p-gen");
   genImgs.forEach(img => img.style.display = 'block');
   document.querySelector(".profil-gen").style.justifyContent = 'flex-start';
+}
+
+function addGlowToSelector(selector) {
+  // Eliminar glow previo en ese selector (por si acaso)
+  const existing = selector.querySelector('.m-selected');
+  if (existing) existing.remove();
+
+  const glowImg = document.createElement('img');
+  glowImg.className = 'm-selected';
+  glowImg.src = '../IMG/glow.png';
+  const iconDiv = selector.querySelector('.mutant-icon');
+  if (iconDiv) {
+    const firstChild = iconDiv.firstChild;
+    if (firstChild) {
+      iconDiv.insertBefore(glowImg, firstChild.nextSibling);
+    } else {
+      iconDiv.appendChild(glowImg);
+    }
+  }
+}
+
+function removeGlowFromAll() {
+  document.querySelectorAll('.selector .m-selected').forEach(img => img.remove());
 }
 
 // ============================================================

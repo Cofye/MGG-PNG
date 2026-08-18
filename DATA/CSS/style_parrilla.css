@@ -178,6 +178,12 @@ body {
   top: -119.3px;
   left: 43px;
 }
+.m-selected {
+  height: 140px;
+  margin-left: -10px;
+  margin-top: -10px;
+  position: absolute;
+}
 
 .rewardv-icon {
   margin-top: 15.8px;
