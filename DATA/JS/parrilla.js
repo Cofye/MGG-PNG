@@ -10,6 +10,7 @@ let mutantExists = {};
 let mutantNames = {};
 let mutantTypes = {};
 let mutantSkinsMap = {};
+let mutantBasicStatus = {};
 
 
 // Lista de botones (ejemplo)
@@ -196,6 +197,39 @@ async function loadGameDefinitions(codes) {
 // ============================================================
 //  CARGA DE SKINS
 // ============================================================
+const specialSkins = [
+  { specimen: "FE_13", skins: "seasons", basic: false },
+  { specimen: "AF_10", skins: "purgatory", basic: true },
+  { specimen: "DD_05", skins: "spring", basic: true },
+  { specimen: "EE_01", skins: "boss", basic: true },
+  { specimen: "DC_01", skins: "boss", basic: true },
+  { specimen: "BA_01", skins: "boss", basic: true },
+  { specimen: "E_01", skins: "boss", basic: true },
+  { specimen: "DF_01", skins: "boss", basic: true },
+  { specimen: "CF_01", skins: "girl", basic: true },
+  { specimen: "DC_03", skins: "gothic", basic: false },
+  { specimen: "AD_01", skins: "steampunk", basic: true },
+  { specimen: "EF_02", skins: "heroes", basic: false },
+  { specimen: "FD_03", skins: "japan", basic: false },
+  { specimen: "BF_04", skins: "starwars", basic: false },
+  { specimen: "AB_05", skins: "gachaboss", basic: false },
+  { specimen: "CE_05", skins: "villains", basic: false },
+  { specimen: "EC_06", skins: "olympians", basic: false },
+  { specimen: "FA_06", skins: "movies", basic: false },
+  { specimen: "EB_06", skins: "elements", basic: false },
+  { specimen: "BD_07", skins: "soldiers", basic: false },
+  { specimen: "AC_07", skins: "lucha", basic: false },
+  { specimen: "FC_09", skins: "fantasy", basic: false },
+  { specimen: "DA_09", skins: "music", basic: false },
+  { specimen: "BF_10", skins: "western", basic: false },
+  { specimen: "CA_11", skins: "beach", basic: false },
+  { specimen: "DF_12", skins: "vegetal", basic: false },
+  { specimen: "CA_14", skins: "olympics", basic: false },
+  { specimen: "CC_14", skins: "chess", basic: false },
+  { specimen: "CA_14", skins: "olympics", basic: false },
+  { specimen: "EF_15", skins: "gemstones", basic: false }
+];
+
 async function loadGachaTags() {
   console.log("Cargando skins desde gacha.xml...");
   const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/gacha.xml?nocache=${Date.now()}`);
@@ -206,7 +240,7 @@ async function loadGachaTags() {
   gachas.forEach(gacha => {
     const tag = gacha.getAttribute("id");
     if (!tag) return;
-    if (tag.startsWith("seasons") || tag.startsWith("gachaboss") || tag === "CompletionReward") return;
+    if (tag.startsWith("seasons") || tag === "CompletionReward") return;
 
     const specimens = [...gacha.querySelectorAll("BasicElements GachaSpecimen")];
     specimens.forEach(spec => {
@@ -220,31 +254,30 @@ async function loadGachaTags() {
     });
   });
 
-  // Skins especiales manuales
-  const specialSkins = {
-    "AF_10": "purgatory",
-    "CF_01": "girl",
-    "DD_05": "spring",
-    "AD_01": "steampunk",
-    "FB_03": "gachaboss",
-    "EA_01": "gachaboss",
-    "DB_01": "gachaboss",
-    "D_01": "gachaboss",
-    "EE_01": "boss",
-    "DC_01": "boss",
-    "BA_01": "boss",
-    "FF_01": "gachaboss",
-    "E_01": "boss",
-    "DF_01": "boss"
-  };
-  for (const [code, skin] of Object.entries(specialSkins)) {
+  // Skins especiales (array)
+  specialSkins.forEach(item => {
+    const code = item.specimen.toUpperCase();
+    const skinsList = item.skins.split(',').map(s => s.trim());
     if (!mutantSkinsMap[code]) mutantSkinsMap[code] = [];
-    if (!mutantSkinsMap[code].includes(skin)) {
-      mutantSkinsMap[code].push(skin);
-    }
-  }
+    skinsList.forEach(skin => {
+      if (!mutantSkinsMap[code].includes(skin)) {
+        mutantSkinsMap[code].push(skin);
+      }
+    });
+    // Guardar estado basic
+    mutantBasicStatus[code] = item.basic !== false; // por defecto true
+  });
+
+  // Después de procesar specialSkins y antes de console.log
+mutantSpecialSkinsOrder = {};
+specialSkins.forEach(item => {
+  const code = item.specimen.toUpperCase();
+  const skinsList = item.skins.split(',').map(s => s.trim());
+  mutantSpecialSkinsOrder[code] = skinsList;
+});
 
   console.log("Skins cargadas por código:", mutantSkinsMap);
+  console.log("Basic status:", mutantBasicStatus);
 }
 
 // ============================================================
@@ -705,38 +738,63 @@ async function loadProfile(code, skin = null, variantType = null, variantValue =
 
   // Determinar la variante a cargar
   let variant = null;
+  const basic = mutantBasicStatus[code] !== false;
+
   if (variantType === 'base') {
     variant = { type: 'base', value: variantValue };
   } else if (skin) {
     variant = { type: 'skin', value: skin };
+  } else if (!basic) {
+    // Si no tiene básica, usar la primera skin de la lista especial
+    const specialSkinsList = mutantSpecialSkinsOrder[code] || [];
+    if (specialSkinsList.length > 0) {
+      variant = { type: 'skin', value: specialSkinsList[0] };
+    } else {
+      // fallback a cualquier skin
+      const skins = mutantSkinsMap[code] || [];
+      if (skins.length > 0) {
+        variant = { type: 'skin', value: skins[0] };
+      }
+    }
   }
-  // Si no hay ni skin ni variante base, variant queda null (carga base)
 
   await loadMutantImage(code, variant);
-  await generateVariants(code, type, variant); // pasamos la variante actual
+  await generateVariants(code, type, variant);
 }
 
 async function loadMutantImage(code, variant = null) {
   let paths = [];
   if (!variant) {
-    // Base: sin variante (PNG o PNG HD)
     paths = [`../../PNG/${code}.png`, `../../PNG HD/${code}.png`];
   } else if (variant.type === "base") {
-    // Estrella: V1, V2, V3, V4
     paths = [`../../PNG/V${variant.value}/${code}.png`, `../../PNG HD/V${variant.value}/${code}.png`];
   } else if (variant.type === "skin") {
-    // Skin: VR + nombre de la skin
     paths = [`../../PNG/VR/${code}_${variant.value}.png`, `../../PNG HD/VR/${code}_${variant.value}.png`];
   }
 
+  // Intentar cargar rutas PNG
   for (let p of paths) {
     if (await checkImage(p)) {
       document.querySelector(".mutant").src = p;
       return;
     }
   }
-  // Si no se encuentra, usar thumbnail por defecto
-  document.querySelector(".mutant").src = "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
+
+  // Si no se encuentra, intentar thumbnail con la variante correspondiente
+  let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+  if (variant) {
+    if (variant.type === 'skin') {
+      thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${variant.value.toLowerCase()}.png`;
+    } else if (variant.type === 'base') {
+      const starNames = ['bronze', 'silver', 'gold', 'platinum'];
+      const starName = starNames[variant.value - 1];
+      if (starName) {
+        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+      }
+    }
+  }
+  const exists = await checkImage(thumbUrl);
+  document.querySelector(".mutant").src = exists ? thumbUrl : "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
 }
 
 async function generateVariants(code, type, currentVariant = null) {
@@ -745,17 +803,18 @@ async function generateVariants(code, type, currentVariant = null) {
 
   const variantNames = ["bronze", "silver", "gold", "platinum"];
   const allVariants = [];
+  const basic = mutantBasicStatus[code] !== false;
 
-  // Estrellas según tipo
-  if (type === "zodiac") {
-    allVariants.push({ type: "base", value: 2, icon: `../IMG/star_${variantNames[1]}.png` });
-  } else if (["normal", "pvp", "legend", "heroic", "recipe"].includes(type)) {
-    for (let v of [1, 2, 3, 4]) {
-      allVariants.push({ type: "base", value: v, icon: `../IMG/star_${variantNames[v-1]}.png` });
+  if (basic) {
+    if (type === "zodiac") {
+      allVariants.push({ type: "base", value: 2, icon: `../IMG/star_${variantNames[1]}.png` });
+    } else if (["normal", "pvp", "legend", "heroic", "recipe"].includes(type)) {
+      for (let v of [1, 2, 3, 4]) {
+        allVariants.push({ type: "base", value: v, icon: `../IMG/star_${variantNames[v-1]}.png` });
+      }
     }
   }
 
-  // Skins de gacha + especiales
   const base = code.replace(/_\d+$/, "");
   let skins = mutantSkinsMap[code] || [];
   if (mutantSkinsMap[base]) {
@@ -763,7 +822,6 @@ async function generateVariants(code, type, currentVariant = null) {
   }
   skins = [...new Set(skins)];
 
-  // Si la variante actual es una skin y no está en la lista, añadirla
   if (currentVariant && currentVariant.type === 'skin' && !skins.includes(currentVariant.value)) {
     skins.push(currentVariant.value);
   }
@@ -793,7 +851,6 @@ async function generateVariants(code, type, currentVariant = null) {
     });
     container.appendChild(el);
 
-    // Marcar si coincide con la variante actual
     if (currentVariant) {
       if (v.type === currentVariant.type && v.value === currentVariant.value) {
         selectedIndex = idx;
@@ -801,37 +858,69 @@ async function generateVariants(code, type, currentVariant = null) {
     }
   });
 
-  // Si no se encontró coincidencia, NO seleccionamos nada (dejamos base)
+  // Si no se encontró coincidencia con currentVariant:
+  if (selectedIndex === -1) {
+    // Si no hay currentVariant, no seleccionamos nada
+    if (!currentVariant) {
+      selectedVariant = null;
+      return;
+    }
+    // Si currentVariant existe pero no está en la lista, seleccionamos algo adecuado
+    if (!basic && skins.length > 0) {
+      selectedIndex = allVariants.findIndex(v => v.type === 'skin');
+    } else if (basic) {
+      const baseVariant = allVariants.find(v => v.type === 'base');
+      if (baseVariant) {
+        selectedIndex = allVariants.indexOf(baseVariant);
+      } else if (skins.length > 0) {
+        selectedIndex = allVariants.findIndex(v => v.type === 'skin');
+      }
+    }
+  }
+
   if (selectedIndex !== -1) {
     const el = container.children[selectedIndex];
     const variant = allVariants[selectedIndex];
     el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
     selectedVariant = variant;
-    // Ya la imagen está cargada, no es necesario recargar
+    // ❌ No recargar la imagen aquí, ya está cargada en loadProfile
   } else {
-    // Si no hay selección, aseguramos que selectedVariant sea null
     selectedVariant = null;
-    // La imagen ya se cargó con loadMutantImage con variant=null
   }
 }
 
 async function toggleVariant(variant, el, code) {
+  const basic = mutantBasicStatus[code] !== false;
+
+  // Si ya está seleccionada y es skin, pero no tiene básica, no hacer nada
   if (selectedVariant && JSON.stringify(selectedVariant) === JSON.stringify(variant)) {
-    // Deseleccionar
+    if (!basic && variant.type === 'skin') {
+      // No permitir deseleccionar skin si no tiene versión básica
+      return;
+    }
+    // Deseleccionar (solo si tiene básica)
     selectedVariant = null;
     el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
-    await loadMutantImage(code, null);
+    await loadMutantImage(code, null); // Cargar base
     return;
   }
+
   // Seleccionar
   selectedVariant = variant;
   document.querySelectorAll(".skin-background").forEach(bg => {
     bg.src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
   });
   el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
-  await loadMutantImage(code, variant);
+  
+  // 🔥 CORRECCIÓN: pasar el objeto variant para base y skin
+  if (variant.type === 'base') {
+    await loadMutantImage(code, variant); // { type: 'base', value: X }
+  } else if (variant.type === 'skin') {
+    await loadMutantImage(code, variant);
+  } else {
+    await loadMutantImage(code, null);
+  }
 }
-
 function initProfileEmpty() {
   document.querySelector(".mutant").style.display = "none";
   document.querySelector(".profil-text").style.display = "none";
