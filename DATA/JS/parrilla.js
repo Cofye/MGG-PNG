@@ -136,9 +136,9 @@ function getSkinImageUrl(skin) {
   if (!skin) return '';
   const lowerSkin = skin.toLowerCase();
   if (['bronze', 'silver', 'gold', 'platinum'].includes(lowerSkin)) {
-    return `https://s-ak.kobojo.com/mutants/assets/thumbnails/star_${lowerSkin}.png`;
+    return `https://s-beta.kobojo.com/mutants/assets/thumbnails/star_${lowerSkin}.png`;
   } else {
-    return `https://s-ak.kobojo.com/mutants/assets/gachacontent/icon_${lowerSkin}.png`;
+    return `https://s-beta.kobojo.com/mutants/assets/gachacontent/icon_${lowerSkin}.png`;
   }
 }
 
@@ -295,13 +295,13 @@ function buildRewardIcon(reward, iconClass) {
 
   // Caso 1: Softcurrency
   if (type === "softcurrency") {
-    const url = "https://s-ak.kobojo.com/mutants/assets/thumbnails/sc1000.png";
+    const url = "https://s-beta.kobojo.com/mutants/assets/thumbnails/sc1000.png";
     return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   }
 
   // Caso 2: Hardcurrency
   if (type === "hardcurrency") {
-    const url = "https://s-ak.kobojo.com/mutants/assets/thumbnails/hardcurrency.png";
+    const url = "https://s-beta.kobojo.com/mutants/assets/thumbnails/hardcurrency.png";
     return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   }
 
@@ -312,7 +312,7 @@ function buildRewardIcon(reward, iconClass) {
 
     if (isSpecimen) {
       const code = id.replace(/^Specimen_/i, "").toLowerCase();
-      const larvaUrl = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${code}.png`;
+      const larvaUrl = `https://s-beta.kobojo.com/mutants/assets/larvas/larva_${code}.png`;
 
       if (skin) {
         // Skin: usamos la función auxiliar
@@ -323,18 +323,18 @@ function buildRewardIcon(reward, iconClass) {
           <img class="${skinClass}" src="${skinUrl}" onerror="this.style.display='none'">
         `;
       } else {
-        return `<img class="${actualClass}" src="${larvaUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">`;
+        return `<img class="${actualClass}" src="${larvaUrl}" onerror="this.src='https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">`;
       }
     } else {
       // Otras entidades (items) usan thumbnail
-      const url = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
+      const url = `https://s-beta.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
       return `<img class="${actualClass}" src="${url}" onerror="this.style.display='none'">`;
     }
   }
 
   // Caso por defecto
   if (id) {
-    const url = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
+    const url = `https://s-beta.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
     return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   } else {
     return `<img class="${iconClass}" src="" style="display:none;">`;
@@ -370,13 +370,13 @@ function buildGrid(data) {
     // Determinar src del icono: si empieza con "icon-morpho/" es de assets, sino es local
     let iconSrc;
     if (iconPath.startsWith('icon-morpho/')) {
-      iconSrc = `https://s-ak.kobojo.com/mutants/assets/${iconPath}`;
+      iconSrc = `https://s-beta.kobojo.com/mutants/assets/${iconPath}`;
     } else {
       iconSrc = iconPath; // local, ej: ../IMG/gene_none.png
     }
     geneh.innerHTML = `
       <div class="geneh-icon">
-        <img class="gh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene.png">
+        <img class="gh-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene.png">
         <img class="gh-icon" src="${iconSrc}">
       </div>
     `;
@@ -397,13 +397,13 @@ function buildGrid(data) {
       : "../IMG/gene_none.png";
     let iconSrc;
     if (iconPath.startsWith('icon-morpho/')) {
-      iconSrc = `https://s-ak.kobojo.com/mutants/assets/${iconPath}`;
+      iconSrc = `https://s-beta.kobojo.com/mutants/assets/${iconPath}`;
     } else {
       iconSrc = iconPath;
     }
     gene.innerHTML = `
       <div class="gene-icon">
-        <img class="g-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene_v.png">
+        <img class="g-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene_v.png">
         <img class="g-gen" src="${iconSrc}">
       </div>
     `;
@@ -426,14 +426,14 @@ function buildGrid(data) {
       }
 
       // URL de miniatura (con estrella si corresponde)
-      let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+      let thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
       if (skin) {
-        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
+        thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
       } else if (variantType === 'base') {
         const starNames = ['bronze', 'silver', 'gold', 'platinum'];
         const starName = starNames[variantValue - 1];
         if (starName) {
-          thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+          thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
         }
       }
 
@@ -456,8 +456,8 @@ function buildGrid(data) {
 
       selector.innerHTML = `
         <div class="mutant-icon">
-          <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
-          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
+          <img class="m-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
+          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
           ${skinImgHTML}
           <img class="m-gen1" src="../IMG/gene_${gen1}.png">
           <img class="m-gen2" src="../IMG/gene_${gen2}.png">
@@ -489,7 +489,7 @@ function buildGrid(data) {
     const vIconHTML = rewardV ? buildRewardIcon(rewardV, "rv-icon") : `<img class="rv-icon" src="" style="display:none;">`;
     rewardv.innerHTML = `
       <div class="rewardv-icon">
-        <img class="rv-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_v.png">
+        <img class="rv-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_v.png">
         ${vIconHTML}
         <span class="text rv-text">${vAmount}</span>
       </div>
@@ -512,7 +512,7 @@ function buildGrid(data) {
     const hIconHTML = reward ? buildRewardIcon(reward, "rh-icon") : `<img class="rh-icon" src="" style="display:none;">`;
     rewardh.innerHTML = `
       <div class="rewardh-icon">
-        <img class="rh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward.png">
+        <img class="rh-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward.png">
         ${hIconHTML}
         <span class="text rh-text">${hAmount}</span>
       </div>
@@ -527,7 +527,7 @@ function buildGrid(data) {
   const spIconHTML = specialReward ? buildRewardIcon(specialReward, "r-icon") : `<img class="r-icon" src="" style="display:none;">`;
   special.innerHTML = `
     <div class="reward-icon">
-      <img class="r-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_final.png">
+      <img class="r-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_final.png">
       ${spIconHTML}
       <span class="text r-text">${spAmount}</span>
     </div>
@@ -724,7 +724,7 @@ async function loadProfile(code, skin = null, variantType = null, variantValue =
   const name = mutantNames[code] || code;
   document.querySelector(".profil-text").textContent = name;
 
-  document.querySelector(".larva").src = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${code.toLowerCase()}.png`;
+  document.querySelector(".larva").src = `https://s-beta.kobojo.com/mutants/assets/larvas/larva_${code.toLowerCase()}.png`;
 
   const type = mutantTypes[code] || "normal";
   const typeImg = document.querySelector(".type");
@@ -732,9 +732,9 @@ async function loadProfile(code, skin = null, variantType = null, variantValue =
     typeImg.style.display = "none";
   } else {
     typeImg.style.display = "block";
-    typeImg.src = `https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/icon_${type}.png`;
+    typeImg.src = `https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/icon_${type}.png`;
   }
-  document.querySelector(".bg").src = `https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/profil_bg_${type}.png`;
+  document.querySelector(".bg").src = `https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/profil_bg_${type}.png`;
 
   // Determinar la variante a cargar
   let variant = null;
@@ -781,20 +781,20 @@ async function loadMutantImage(code, variant = null) {
   }
 
   // Si no se encuentra, intentar thumbnail con la variante correspondiente
-  let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+  let thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
   if (variant) {
     if (variant.type === 'skin') {
-      thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${variant.value.toLowerCase()}.png`;
+      thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${variant.value.toLowerCase()}.png`;
     } else if (variant.type === 'base') {
       const starNames = ['bronze', 'silver', 'gold', 'platinum'];
       const starName = starNames[variant.value - 1];
       if (starName) {
-        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+        thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
       }
     }
   }
   const exists = await checkImage(thumbUrl);
-  document.querySelector(".mutant").src = exists ? thumbUrl : "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
+  document.querySelector(".mutant").src = exists ? thumbUrl : "https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
 }
 
 async function generateVariants(code, type, currentVariant = null) {
@@ -842,7 +842,7 @@ async function generateVariants(code, type, currentVariant = null) {
     el.className = "variant";
     el.innerHTML = `
       <div class="skin">
-        <img class="skin-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png">
+        <img class="skin-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png">
         <img class="skin-icon" src="${v.icon}">
       </div>
     `;
@@ -881,7 +881,7 @@ async function generateVariants(code, type, currentVariant = null) {
   if (selectedIndex !== -1) {
     const el = container.children[selectedIndex];
     const variant = allVariants[selectedIndex];
-    el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
+    el.querySelector(".skin-background").src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
     selectedVariant = variant;
     // ❌ No recargar la imagen aquí, ya está cargada en loadProfile
   } else {
@@ -900,7 +900,7 @@ async function toggleVariant(variant, el, code) {
     }
     // Deseleccionar (solo si tiene básica)
     selectedVariant = null;
-    el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
+    el.querySelector(".skin-background").src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
     await loadMutantImage(code, null); // Cargar base
     return;
   }
@@ -908,9 +908,9 @@ async function toggleVariant(variant, el, code) {
   // Seleccionar
   selectedVariant = variant;
   document.querySelectorAll(".skin-background").forEach(bg => {
-    bg.src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
+    bg.src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
   });
-  el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
+  el.querySelector(".skin-background").src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
   
   // 🔥 CORRECCIÓN: pasar el objeto variant para base y skin
   if (variant.type === 'base') {
@@ -926,7 +926,7 @@ function initProfileEmpty() {
   document.querySelector(".profil-text").style.display = "none";
   document.querySelector(".versions").style.display = "none";
   document.querySelector(".type").style.display = "none";
-  document.querySelector(".larva").src = "https://s-ak.kobojo.com/mutants/assets/larvas/larva_mystery.png";
+  document.querySelector(".larva").src = "https://s-beta.kobojo.com/mutants/assets/larvas/larva_mystery.png";
   // También restaurar los genes por si acaso
   const genImgs = document.querySelectorAll(".p-gen");
   genImgs.forEach(img => img.style.display = 'block');
