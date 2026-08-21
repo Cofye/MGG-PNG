@@ -15,63 +15,63 @@ let mutantBasicStatus = {};
 
 // Lista de botones (ejemplo)
 const bingoButtons = [
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_starter.xml", icon: "../IMG/morphology_starter.png", name: "Iniciación" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1.xml", icon: "../IMG/morphology_season_1.png", name: "Hibridación" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_2.xml", icon: "../IMG/morphology_season_2.png", name: "Investigación I" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_3.xml", icon: "../IMG/morphology_season_3.png", name: "Investigación II" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_4.xml", icon: "../IMG/morphology_season_4.png", name: "Investigación III" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_5.xml", icon: "../IMG/morphology_season_5.png", name: "Investigación IV" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_6.xml", icon: "../IMG/morphology_season_6.png", name: "Investigación V" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_7.xml", icon: "../IMG/morphology_season_7.png", name: "Investigación VI" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_8.xml", icon: "../IMG/morphology_season_8.png", name: "Investigación VII" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_9.xml", icon: "../IMG/morphology_season_9.png", name: "Investigación VIII" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_10.xml", icon: "../IMG/morphology_season_10.png", name: "Investigación IX" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_11.xml", icon: "../IMG/morphology_season_11.png", name: "Investigación X" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_12.xml", icon: "../IMG/morphology_season_12.png", name: "Investigación XI" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_starter.xml", icon: "../IMG/morphology_starter.png", name: "Iniciación" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_1.xml", icon: "../IMG/morphology_season_1.png", name: "Hibridación" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_2.xml", icon: "../IMG/morphology_season_2.png", name: "Investigación I" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_3.xml", icon: "../IMG/morphology_season_3.png", name: "Investigación II" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_4.xml", icon: "../IMG/morphology_season_4.png", name: "Investigación III" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_5.xml", icon: "../IMG/morphology_season_5.png", name: "Investigación IV" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_6.xml", icon: "../IMG/morphology_season_6.png", name: "Investigación V" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_7.xml", icon: "../IMG/morphology_season_7.png", name: "Investigación VI" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_8.xml", icon: "../IMG/morphology_season_8.png", name: "Investigación VII" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_9.xml", icon: "../IMG/morphology_season_9.png", name: "Investigación VIII" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_10.xml", icon: "../IMG/morphology_season_10.png", name: "Investigación IX" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_11.xml", icon: "../IMG/morphology_season_11.png", name: "Investigación X" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_12.xml", icon: "../IMG/morphology_season_12.png", name: "Investigación XI" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_13.xml", icon: "../IMG/morphology_season_13.png", name: "Investigación XII" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_14.xml", icon: "../IMG/morphology_season_14.png", name: "Investigación XIII" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_15.xml", icon: "../IMG/morphology_season_15.png", name: "Investigación XIV" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_season_99.xml", icon: "../IMG/morphology_season_99.png", name: "Investigación Indefinida" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_reactor_1.xml", icon: "../IMG/morphology_reactor_1.png", name: "Reactor I" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_legendary.xml", icon: "../IMG/morphology_legendary.png", name: "Legendarios" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_zodiac.xml", icon: "../IMG/morphology_zodiac.png", name: "Zodiaco" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_zodiac_silver.xml", icon: "../IMG/morphology_zodiac_silver.png", name: "Zodiaco Plata" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_xmas2015.xml", icon: "../IMG/bingo_event.png", name: "Eventos" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_amazons.xml", icon: "../IMG/bingo_amazons.png", name: "Amazonas Plata" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_bronze.xml", icon: "../IMG/bingo_bronze.png", name: "Hibridación Bronce" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_silver.xml", icon: "../IMG/bingo_silver.png", name: "Hibridación Plata" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_gold.xml", icon: "../IMG/bingo_gold.png", name: "Hibridación Oro" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_platinum.xml", icon: "../IMG/bingo_platinum.png", name: "Hibridación Platino" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_starter_platinum.xml", icon: "../IMG/morphology_starter_platinum.png", name: "Iniciación Platino" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_rumble.xml", icon: "../IMG/morphology_rumble.png", name: "Pelea" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_heroic.xml", icon: "../IMG/morphology_heroic.png", name: "Heroicos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2016.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2017.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2018.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2019.xml", icon: "../IMG/morphology_event_2019.png", name: "2019 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2019.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2020.xml", icon: "../IMG/morphology_event_2019.png", name: "2020 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2020.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2021.xml", icon: "../IMG/morphology_event_2019.png", name: "2021 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary21.xml", icon: "../IMG/morphology_event_2019.png", name: "8° Aniversario" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2021.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2022.xml", icon: "../IMG/morphology_event_2019.png", name: "2022 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2022.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2023.xml", icon: "../IMG/morphology_event_2019.png", name: "2023 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_10years.xml", icon: "../IMG/morphology_10years.png", name: "Realidades Cruzadas" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2023.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_event_2024.xml", icon: "../IMG/morphology_event_2019.png", name: "2024 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary24.xml", icon: "../IMG/morphology_conspiracy.png", name: "11° Aniversario" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2024.xml", icon: "../IMG/morphology_winter.png", name: "Invierno 2024" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2025_skins.xml", icon: "../IMG/morphology_2025_skins.png", name: "Skins 2025" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2025_mutants.xml", icon: "../IMG/morphology_2025_mutants.png", name: "Mutantes 2025" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2025_events.xml", icon: "../IMG/morphology_2025_events.png", name: "2025 Eventos" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary25.xml", icon: "../IMG/morphology_10years.png", name: "12° Aniversario" },
-  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2025.xml", icon: "../IMG/morphology_winter.png", name: "Invierno 2025" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_skins.xml", icon: "../IMG/morphology_2026_skins.png", name: "Skins 2026" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_mutants.xml", icon: "../IMG/morphology_2026_mutants.png", name: "Mutantes 2026" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_events.xml", icon: "../IMG/morphology_2026_events.png", name: "Eventos 2026" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary26.xml", icon: "../IMG/morpho_hexcity.png", name: "13° Aniversario" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_reactor_1.xml", icon: "../IMG/morphology_reactor_1.png", name: "Reactor I" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_legendary.xml", icon: "../IMG/morphology_legendary.png", name: "Legendarios" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_zodiac.xml", icon: "../IMG/morphology_zodiac.png", name: "Zodiaco" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_zodiac_silver.xml", icon: "../IMG/morphology_zodiac_silver.png", name: "Zodiaco Plata" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_xmas2015.xml", icon: "../IMG/bingo_event.png", name: "Eventos" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_amazons.xml", icon: "../IMG/bingo_amazons.png", name: "Amazonas Plata" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_bronze.xml", icon: "../IMG/bingo_bronze.png", name: "Hibridación Bronce" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_silver.xml", icon: "../IMG/bingo_silver.png", name: "Hibridación Plata" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_gold.xml", icon: "../IMG/bingo_gold.png", name: "Hibridación Oro" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_platinum.xml", icon: "../IMG/bingo_platinum.png", name: "Hibridación Platino" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_starter_platinum.xml", icon: "../IMG/morphology_starter_platinum.png", name: "Iniciación Platino" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_season_1_rumble.xml", icon: "../IMG/morphology_rumble.png", name: "Pelea" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_heroic.xml", icon: "../IMG/morphology_heroic.png", name: "Heroicos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2016.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2017.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2018.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_2019.xml", icon: "../IMG/morphology_event_2019.png", name: "2019 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2019.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_2020.xml", icon: "../IMG/morphology_event_2019.png", name: "2020 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2020.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_2021.xml", icon: "../IMG/morphology_event_2019.png", name: "2021 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary21.xml", icon: "../IMG/morphology_event_2019.png", name: "8° Aniversario" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2021.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_2022.xml", icon: "../IMG/morphology_event_2019.png", name: "2022 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2022.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_2023.xml", icon: "../IMG/morphology_event_2019.png", name: "2023 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_10years.xml", icon: "../IMG/morphology_10years.png", name: "Realidades Cruzadas" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2023.xml", icon: "../IMG/morphology_winter.png", name: "Invierno" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_event_2024.xml", icon: "../IMG/morphology_event_2019.png", name: "2024 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary24.xml", icon: "../IMG/morphology_conspiracy.png", name: "11° Aniversario" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2024.xml", icon: "../IMG/morphology_winter.png", name: "Invierno 2024" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_2025_skins.xml", icon: "../IMG/morphology_2025_skins.png", name: "Skins 2025" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_2025_mutants.xml", icon: "../IMG/morphology_2025_mutants.png", name: "Mutantes 2025" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_2025_events.xml", icon: "../IMG/morphology_2025_events.png", name: "2025 Eventos" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary25.xml", icon: "../IMG/morphology_10years.png", name: "12° Aniversario" },
+  { enabled: false, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_xmas2025.xml", icon: "../IMG/morphology_winter.png", name: "Invierno 2025" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_2026_skins.xml", icon: "../IMG/morphology_2026_skins.png", name: "Skins 2026" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_2026_mutants.xml", icon: "../IMG/morphology_2026_mutants.png", name: "Mutantes 2026" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_2026_events.xml", icon: "../IMG/morphology_2026_events.png", name: "Eventos 2026" },
+  { enabled: true, url: "https://s-ak.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary26.xml", icon: "../IMG/morpho_hexcity.png", name: "13° Aniversario" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_monogene_1.xml", icon: "../IMG/morphology_monogen.png", name: "Monogen 1" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_monogene_2.xml", icon: "../IMG/morphology_monogen.png", name: "Monogen 2" },
 ];
@@ -136,9 +136,9 @@ function getSkinImageUrl(skin) {
   if (!skin) return '';
   const lowerSkin = skin.toLowerCase();
   if (['bronze', 'silver', 'gold', 'platinum'].includes(lowerSkin)) {
-    return `https://s-beta.kobojo.com/mutants/assets/thumbnails/star_${lowerSkin}.png`;
+    return `https://s-ak.kobojo.com/mutants/assets/thumbnails/star_${lowerSkin}.png`;
   } else {
-    return `https://s-beta.kobojo.com/mutants/assets/gachacontent/icon_${lowerSkin}.png`;
+    return `https://s-ak.kobojo.com/mutants/assets/gachacontent/icon_${lowerSkin}.png`;
   }
 }
 
@@ -147,7 +147,7 @@ function getSkinImageUrl(skin) {
 // ============================================================
 async function preloadAllMutants() {
   console.log("Precargando localisation...");
-  const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/localisation_es.txt?nocache=${Date.now()}`);
+  const res = await fetch(`https://s-ak.kobojo.com/mutants/gameconfig/localisation_es.txt?nocache=${Date.now()}`);
   const text = await res.text();
   const lines = text.split("\n");
 
@@ -173,7 +173,7 @@ let gameDefsDoc = null;
 async function loadGameDefinitions(codes) {
   if (!codes.length) return;
   if (!gameDefsLoaded) {
-    const res = await fetch("https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml");
+    const res = await fetch("https://s-ak.kobojo.com/mutants/gameconfig/gamedefinitions.xml");
     const text = await res.text();
     gameDefsDoc = new DOMParser().parseFromString(text, "text/xml");
     gameDefsLoaded = true;
@@ -232,7 +232,7 @@ const specialSkins = [
 
 async function loadGachaTags() {
   console.log("Cargando skins desde gacha.xml...");
-  const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/gacha.xml?nocache=${Date.now()}`);
+  const res = await fetch(`https://s-ak.kobojo.com/mutants/gameconfig/gacha.xml?nocache=${Date.now()}`);
   const text = await res.text();
   const xml = new DOMParser().parseFromString(text, "text/xml");
   const gachas = [...xml.querySelectorAll("Gacha")];
@@ -295,13 +295,13 @@ function buildRewardIcon(reward, iconClass) {
 
   // Caso 1: Softcurrency
   if (type === "softcurrency") {
-    const url = "https://s-beta.kobojo.com/mutants/assets/thumbnails/sc1000.png";
+    const url = "https://s-ak.kobojo.com/mutants/assets/thumbnails/sc1000.png";
     return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   }
 
   // Caso 2: Hardcurrency
   if (type === "hardcurrency") {
-    const url = "https://s-beta.kobojo.com/mutants/assets/thumbnails/hardcurrency.png";
+    const url = "https://s-ak.kobojo.com/mutants/assets/thumbnails/hardcurrency.png";
     return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   }
 
@@ -312,7 +312,7 @@ function buildRewardIcon(reward, iconClass) {
 
     if (isSpecimen) {
       const code = id.replace(/^Specimen_/i, "").toLowerCase();
-      const larvaUrl = `https://s-beta.kobojo.com/mutants/assets/larvas/larva_${code}.png`;
+      const larvaUrl = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${code}.png`;
 
       if (skin) {
         // Skin: usamos la función auxiliar
@@ -323,18 +323,18 @@ function buildRewardIcon(reward, iconClass) {
           <img class="${skinClass}" src="${skinUrl}" onerror="this.style.display='none'">
         `;
       } else {
-        return `<img class="${actualClass}" src="${larvaUrl}" onerror="this.src='https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">`;
+        return `<img class="${actualClass}" src="${larvaUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">`;
       }
     } else {
       // Otras entidades (items) usan thumbnail
-      const url = `https://s-beta.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
+      const url = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
       return `<img class="${actualClass}" src="${url}" onerror="this.style.display='none'">`;
     }
   }
 
   // Caso por defecto
   if (id) {
-    const url = `https://s-beta.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
+    const url = `https://s-ak.kobojo.com/mutants/assets/thumbnails/${id.toLowerCase()}.png`;
     return `<img class="${iconClass}" src="${url}" onerror="this.style.display='none'">`;
   } else {
     return `<img class="${iconClass}" src="" style="display:none;">`;
@@ -370,13 +370,13 @@ function buildGrid(data) {
     // Determinar src del icono: si empieza con "icon-morpho/" es de assets, sino es local
     let iconSrc;
     if (iconPath.startsWith('icon-morpho/')) {
-      iconSrc = `https://s-beta.kobojo.com/mutants/assets/${iconPath}`;
+      iconSrc = `https://s-ak.kobojo.com/mutants/assets/${iconPath}`;
     } else {
       iconSrc = iconPath; // local, ej: ../IMG/gene_none.png
     }
     geneh.innerHTML = `
       <div class="geneh-icon">
-        <img class="gh-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene.png">
+        <img class="gh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene.png">
         <img class="gh-icon" src="${iconSrc}">
       </div>
     `;
@@ -397,13 +397,13 @@ function buildGrid(data) {
       : "../IMG/gene_none.png";
     let iconSrc;
     if (iconPath.startsWith('icon-morpho/')) {
-      iconSrc = `https://s-beta.kobojo.com/mutants/assets/${iconPath}`;
+      iconSrc = `https://s-ak.kobojo.com/mutants/assets/${iconPath}`;
     } else {
       iconSrc = iconPath;
     }
     gene.innerHTML = `
       <div class="gene-icon">
-        <img class="g-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene_v.png">
+        <img class="g-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_gene_v.png">
         <img class="g-gen" src="${iconSrc}">
       </div>
     `;
@@ -426,14 +426,14 @@ function buildGrid(data) {
       }
 
       // URL de miniatura (con estrella si corresponde)
-      let thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+      let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
       if (skin) {
-        thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
+        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${skin.toLowerCase()}.png`;
       } else if (variantType === 'base') {
         const starNames = ['bronze', 'silver', 'gold', 'platinum'];
         const starName = starNames[variantValue - 1];
         if (starName) {
-          thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+          thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
         }
       }
 
@@ -456,8 +456,8 @@ function buildGrid(data) {
 
       selector.innerHTML = `
         <div class="mutant-icon">
-          <img class="m-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
-          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
+          <img class="m-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/slot_background_on.png">
+          <img class="m-icon" src="${thumbUrl}" onerror="this.src='https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png'">
           ${skinImgHTML}
           <img class="m-gen1" src="../IMG/gene_${gen1}.png">
           <img class="m-gen2" src="../IMG/gene_${gen2}.png">
@@ -489,7 +489,7 @@ function buildGrid(data) {
     const vIconHTML = rewardV ? buildRewardIcon(rewardV, "rv-icon") : `<img class="rv-icon" src="" style="display:none;">`;
     rewardv.innerHTML = `
       <div class="rewardv-icon">
-        <img class="rv-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_v.png">
+        <img class="rv-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_v.png">
         ${vIconHTML}
         <span class="text rv-text">${vAmount}</span>
       </div>
@@ -512,7 +512,7 @@ function buildGrid(data) {
     const hIconHTML = reward ? buildRewardIcon(reward, "rh-icon") : `<img class="rh-icon" src="" style="display:none;">`;
     rewardh.innerHTML = `
       <div class="rewardh-icon">
-        <img class="rh-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward.png">
+        <img class="rh-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward.png">
         ${hIconHTML}
         <span class="text rh-text">${hAmount}</span>
       </div>
@@ -527,7 +527,7 @@ function buildGrid(data) {
   const spIconHTML = specialReward ? buildRewardIcon(specialReward, "r-icon") : `<img class="r-icon" src="" style="display:none;">`;
   special.innerHTML = `
     <div class="reward-icon">
-      <img class="r-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_final.png">
+      <img class="r-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/morphology/bg_reward_final.png">
       ${spIconHTML}
       <span class="text r-text">${spAmount}</span>
     </div>
@@ -724,7 +724,7 @@ async function loadProfile(code, skin = null, variantType = null, variantValue =
   const name = mutantNames[code] || code;
   document.querySelector(".profil-text").textContent = name;
 
-  document.querySelector(".larva").src = `https://s-beta.kobojo.com/mutants/assets/larvas/larva_${code.toLowerCase()}.png`;
+  document.querySelector(".larva").src = `https://s-ak.kobojo.com/mutants/assets/larvas/larva_${code.toLowerCase()}.png`;
 
   const type = mutantTypes[code] || "normal";
   const typeImg = document.querySelector(".type");
@@ -732,9 +732,9 @@ async function loadProfile(code, skin = null, variantType = null, variantValue =
     typeImg.style.display = "none";
   } else {
     typeImg.style.display = "block";
-    typeImg.src = `https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/icon_${type}.png`;
+    typeImg.src = `https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/icon_${type}.png`;
   }
-  document.querySelector(".bg").src = `https://s-beta.kobojo.com/mutants/assets/mobile/hud/m_m_m/profil_bg_${type}.png`;
+  document.querySelector(".bg").src = `https://s-ak.kobojo.com/mutants/assets/mobile/hud/m_m_m/profil_bg_${type}.png`;
 
   // Determinar la variante a cargar
   let variant = null;
@@ -781,20 +781,20 @@ async function loadMutantImage(code, variant = null) {
   }
 
   // Si no se encuentra, intentar thumbnail con la variante correspondiente
-  let thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
+  let thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}.png`;
   if (variant) {
     if (variant.type === 'skin') {
-      thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${variant.value.toLowerCase()}.png`;
+      thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${variant.value.toLowerCase()}.png`;
     } else if (variant.type === 'base') {
       const starNames = ['bronze', 'silver', 'gold', 'platinum'];
       const starName = starNames[variant.value - 1];
       if (starName) {
-        thumbUrl = `https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
+        thumbUrl = `https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_${code.toLowerCase()}_${starName}.png`;
       }
     }
   }
   const exists = await checkImage(thumbUrl);
-  document.querySelector(".mutant").src = exists ? thumbUrl : "https://s-beta.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
+  document.querySelector(".mutant").src = exists ? thumbUrl : "https://s-ak.kobojo.com/mutants/assets/thumbnails/specimen_default.png";
 }
 
 async function generateVariants(code, type, currentVariant = null) {
@@ -842,7 +842,7 @@ async function generateVariants(code, type, currentVariant = null) {
     el.className = "variant";
     el.innerHTML = `
       <div class="skin">
-        <img class="skin-background" src="https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png">
+        <img class="skin-background" src="https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png">
         <img class="skin-icon" src="${v.icon}">
       </div>
     `;
@@ -881,7 +881,7 @@ async function generateVariants(code, type, currentVariant = null) {
   if (selectedIndex !== -1) {
     const el = container.children[selectedIndex];
     const variant = allVariants[selectedIndex];
-    el.querySelector(".skin-background").src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
+    el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
     selectedVariant = variant;
     // ❌ No recargar la imagen aquí, ya está cargada en loadProfile
   } else {
@@ -900,7 +900,7 @@ async function toggleVariant(variant, el, code) {
     }
     // Deseleccionar (solo si tiene básica)
     selectedVariant = null;
-    el.querySelector(".skin-background").src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
+    el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
     await loadMutantImage(code, null); // Cargar base
     return;
   }
@@ -908,9 +908,9 @@ async function toggleVariant(variant, el, code) {
   // Seleccionar
   selectedVariant = variant;
   document.querySelectorAll(".skin-background").forEach(bg => {
-    bg.src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
+    bg.src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_black.png";
   });
-  el.querySelector(".skin-background").src = "https://s-beta.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
+  el.querySelector(".skin-background").src = "https://s-ak.kobojo.com/mutants/assets/mobile/hud/mutopedia/btn_white.png";
   
   // 🔥 CORRECCIÓN: pasar el objeto variant para base y skin
   if (variant.type === 'base') {
@@ -926,7 +926,7 @@ function initProfileEmpty() {
   document.querySelector(".profil-text").style.display = "none";
   document.querySelector(".versions").style.display = "none";
   document.querySelector(".type").style.display = "none";
-  document.querySelector(".larva").src = "https://s-beta.kobojo.com/mutants/assets/larvas/larva_mystery.png";
+  document.querySelector(".larva").src = "https://s-ak.kobojo.com/mutants/assets/larvas/larva_mystery.png";
   // También restaurar los genes por si acaso
   const genImgs = document.querySelectorAll(".p-gen");
   genImgs.forEach(img => img.style.display = 'block');
