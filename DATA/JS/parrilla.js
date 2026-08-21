@@ -147,7 +147,7 @@ function getSkinImageUrl(skin) {
 // ============================================================
 async function preloadAllMutants() {
   console.log("Precargando localisation...");
-  const res = await fetch(`https://s-ak.kobojo.com/mutants/gameconfig/localisation_es.txt?nocache=${Date.now()}`);
+  const res = await fetch(`https://s-beta.kobojo.com/mutants/gameconfig/localisation_es.txt?nocache=${Date.now()}`);
   const text = await res.text();
   const lines = text.split("\n");
 
