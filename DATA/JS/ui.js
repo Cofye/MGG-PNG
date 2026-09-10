@@ -88,7 +88,7 @@ async function loadGachaTags() {
   });
 
   const specialSkins = {
-    "AF_10": "purgatory", "DD_05": "spring", "CF_01": "girl", "AD_01": "steampunk",
+    "AF_10": "purgatory", "DD_05": "spring", "DD_04": "winter", "CF_01": "girl", "AD_01": "steampunk",
     "FB_03": "boss", "EA_01": "boss", "DB_01": "boss", "D_01": "boss",
     "EE_01": "boss", "DC_01": "boss", "BA_01": "boss", "FF_01": "boss",
     "E_01": "boss", "DF_01": "boss"

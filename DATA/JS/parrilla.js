@@ -71,7 +71,7 @@ const bingoButtons = [
   { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_skins.xml?v=2", icon: "../IMG/morphology_2026_skins.png", name: "Skins 2026" },
   { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_mutants.xml?v=2", icon: "../IMG/morphology_2026_mutants.png", name: "Mutantes 2026" },
   { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_2026_events.xml?v=2", icon: "../IMG/morphology_2026_events.png", name: "Eventos 2026" },
-  { enabled: true, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary26.xml?v=2", icon: "../IMG/morpho_hexcity.png", name: "13° Aniversario" },
+  { enabled: false, url: "https://s-beta.kobojo.com/mutants/gameconfig/morphology/morphology_anniversary26.xml?v=2", icon: "../IMG/morpho_hexcity.png", name: "13° Aniversario" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_monogene_1.xml?v=2", icon: "../IMG/morphology_monogen.png", name: "Monogen 1" },
   { enabled: false, url: "https://cofye.github.io/MGG-PNG/DATA/BINGOS/morphology_monogene_2.xml?v=2", icon: "../IMG/morphology_monogen.png", name: "Monogen 2" },
 ];
