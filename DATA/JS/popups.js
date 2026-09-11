@@ -32,11 +32,9 @@ document.addEventListener("DOMContentLoaded", scaleSite);
 window.addEventListener("resize", scaleSite);
 window.addEventListener("load", scaleSite);
 
-// popups.js
 document.addEventListener('DOMContentLoaded', function () {
   const xmlUrl = 'https://s-beta.kobojo.com/mutants/gameconfig/dailypopup.xml';
   const container = document.querySelector('.popup-block');
-
   if (!container) {
     console.warn('No se encontró el contenedor .popup-block');
     return;
@@ -50,31 +48,23 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(xmlText => {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-
-      // Obtener todos los elementos <Offer>
       const offers = xmlDoc.getElementsByTagName('Offer');
-
-      // Recorrer cada Offer y extraer el atributo image
       for (let offer of offers) {
         let imageValue = offer.getAttribute('image');
         if (imageValue) {
-          // Reemplazar todos los "$$" por "-en"
           const imagePath = imageValue.replace(/\$\$/g, '-en');
-          // Construir la URL completa de la imagen
           const src = `https://s-beta.kobojo.com/mutants/assets/${imagePath}`;
-
-          // Crear elemento img y agregarlo al contenedor
           const img = document.createElement('img');
           img.className = 'popup';
           img.src = src;
-          // (Opcional) añadir atributo alt o title para accesibilidad
-          img.alt = 'Oferta';
+          const filterEl = offer.getElementsByTagName('Filter')[0];
+          const filterValue = filterEl ? filterEl.textContent.trim() : '';
+          img.alt = filterValue || 'Oferta';
           container.appendChild(img);
         }
       }
     })
     .catch(error => {
       console.error('Error al cargar o procesar el XML:', error);
-      // Puedes mostrar un mensaje en la interfaz si lo deseas
     });
 });
