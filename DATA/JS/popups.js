@@ -33,7 +33,7 @@ window.addEventListener("resize", scaleSite);
 window.addEventListener("load", scaleSite);
 
 document.addEventListener('DOMContentLoaded', function () {
-  const xmlUrl = 'https://s-beta.kobojo.com/mutants/gameconfig/dailypopup.xml';
+  const xmlUrl = 'https://s-beta.kobojo.com/mutants/gameconfig/dailypopup.xml?v=2';
   const container = document.querySelector('.popup-block');
   if (!container) {
     console.warn('No se encontró el contenedor .popup-block');
